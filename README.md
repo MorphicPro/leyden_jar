@@ -1,4 +1,18 @@
-# LeydenJar
+# Leyden Jar
+
+A simple EVSE dashboare for your OpenEVSE charger. 
+
+_Note: Early Development - 3/7/2021_
+
+### Featues:
+  - [x] Open Source
+  - [ ] User registration for Emoncms style API
+  - [ ] Realtime Dash
+  - [ ] Electric bill analysis
+  - [ ] Push Notifications
+
+
+### Development 
 
 To start your Phoenix server:
 
