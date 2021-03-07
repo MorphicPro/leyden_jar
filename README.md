@@ -2,7 +2,7 @@
 
 Site: https://leydenjar.app
 
-A simple EVSE dashboare for your OpenEVSE charger. 
+A simple EVSE dashboard for your OpenEVSE charger. 
 
 _Note: Early Development - 3/7/2021_
 
