@@ -1,4 +1,6 @@
-# Leyden Jar
+# [Leyden Jar](https://leydenjar.app)
+
+Site: https://leydenjar.app
 
 A simple EVSE dashboare for your OpenEVSE charger. 
 
