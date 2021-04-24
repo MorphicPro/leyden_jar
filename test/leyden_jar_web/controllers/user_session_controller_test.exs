@@ -11,7 +11,7 @@ defmodule LeydenJarWeb.UserSessionControllerTest do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.user_session_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+      assert response =~ "Sign in to your account"
       assert response =~ "Log in</a>"
       assert response =~ "Register</a>"
     end
@@ -37,7 +37,7 @@ defmodule LeydenJarWeb.UserSessionControllerTest do
       response = html_response(conn, 200)
       assert response =~ user.email
       assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ "Sign out</a>"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
@@ -75,7 +75,7 @@ defmodule LeydenJarWeb.UserSessionControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+      assert response =~ "Sign in to your account"
       assert response =~ "Invalid email or password"
     end
   end

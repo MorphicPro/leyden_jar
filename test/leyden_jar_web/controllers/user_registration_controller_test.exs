@@ -7,7 +7,7 @@ defmodule LeydenJarWeb.UserRegistrationControllerTest do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Register a new account."
       assert response =~ "Log in</a>"
       assert response =~ "Register</a>"
     end
@@ -36,7 +36,7 @@ defmodule LeydenJarWeb.UserRegistrationControllerTest do
       response = html_response(conn, 200)
       assert response =~ email
       assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ "Sign out</a>"
     end
 
     test "render errors for invalid data", %{conn: conn} do
@@ -46,7 +46,7 @@ defmodule LeydenJarWeb.UserRegistrationControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Register a new account."
       assert response =~ "must have the @ sign and no spaces"
       assert response =~ "should be at least 12 character"
     end
