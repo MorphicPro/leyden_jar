@@ -47,7 +47,7 @@ defmodule LeydenJar.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.2", override: true},
-      {:plug_cowboy, "~> 2.4.1"},
+      {:plug_cowboy, "~> 2.5.0"},
       {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
       {:sobelow, "~> 0.11", only: :dev},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
