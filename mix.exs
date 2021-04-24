@@ -36,7 +36,7 @@ defmodule LeydenJar.MixProject do
       {:bcrypt_elixir, "~> 2.3"},
       {:phoenix, "~> 1.5.8"},
       {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.5.3"},
+      {:ecto_sql, "~> 3.6.1"},
       {:postgrex, ">= 0.15.7"},
       {:phoenix_live_view, "~> 0.15.1"},
       {:phoenix_html, "~> 2.11"},
