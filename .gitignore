@@ -35,4 +35,4 @@ npm-debug.log
 
 # Don't commit your self signed certs
 # Thus we wan't to ignore their directory
-/priv/certs/
+/priv/cert/
