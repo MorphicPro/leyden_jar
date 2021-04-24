@@ -1,53 +1,123 @@
-<h1>Settings</h1>
+<main class="pt-24">
+  <div class="max-w-screen-xl mx-auto pb-6 px-4 sm:px-6 lg:pb-16 lg:px-8">
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+      <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x" x-data="{tab: 'account'}">
+        <aside class="py-6 lg:col-span-3">
+          <nav class="space-y-1">
+            <!-- Current: "bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700", Default: "border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900" -->
+            <a href="#" :class="{ 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 ': tab != 'account', 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700': tab === 'account' }" @click="tab = 'account'" class="group border-l-4 px-3 py-2 flex items-center text-sm font-medium">
+              <!-- Heroicon name: outline/cog -->
+              <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="truncate">
+                Account
+              </span>
+            </a>
 
-<h3>Change email</h3>
+            <a href="#" :class="{ 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 ': tab != 'password', 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700': tab === 'password' }" @click="tab = 'password'" class="group border-l-4 px-3 py-2 flex items-center text-sm font-medium">
+              <!-- Heroicon name: outline/key -->
+              <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+              <span class="truncate">
+                Password
+              </span>
+            </a>
+          </nav>
+        </aside>
 
-<%= form_for @email_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
-  <%= if @email_changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+        <div class="divide-y divide-gray-200 lg:col-span-9" x-show="tab === 'account'">
+        <%= form_for @email_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
+          <!-- Profile section -->
+          <div class="py-6 px-4 sm:p-6 lg:pb-8">
+            <div>
+              <h2 class="text-lg leading-6 font-medium text-gray-900">Account</h2>
+              <p class="mt-1 text-sm text-gray-500">
+                This information is private and only used to authenticate your account.
+              </p>
+            </div>
+
+            <%= hidden_input f, :action, name: "action", value: "update_email" %>
+
+            <div class="mt-6">
+              <%= label f, :email, class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1 rounded-md shadow-sm flex">
+                <%= email_input f, :email, required: true, class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                <%= error_tag f, :email %>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <%= label f, :current_password, for: "current_password_for_email", class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1 rounded-md shadow-sm flex">
+                <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                <%= error_tag f, :current_password %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Privacy section -->
+          <div class="pt-6 divide-y divide-gray-200">
+            <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
+              <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Cancel
+              </button>
+              <%= submit "Change email", class: "ml-5 bg-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            </div>
+          </div>
+        <% end %>
+        </div>
+
+        <div class="divide-y divide-gray-200 lg:col-span-9" x-show="tab === 'password'">
+          <%= form_for @password_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
+          <!-- Profile section -->
+            <div class="py-6 px-4 sm:p-6 lg:pb-8">
+              <div>
+                <h2 class="text-lg leading-6 font-medium text-gray-900">Password</h2>
+                <p class="mt-1 text-sm text-gray-500">
+                  This information is private and only used to authenticate your account.
+                </p>
+              </div>
+  
+              <%= hidden_input f, :action, name: "action", value: "update_password" %>
+  
+              <div class="mt-6">
+                <%= label f, :password, "New password", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1 rounded-md shadow-sm flex">
+                  <%= password_input f, :password, required: true, class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                  <%= error_tag f, :password %>
+                </div>
+              </div>
+  
+              <div class="mt-6">
+                <%= label f, :password_confirmation, "Confirm new password", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1 rounded-md shadow-sm flex">
+                  <%= password_input f, :password_confirmation, required: true, class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                  <%= error_tag f, :password_confirmation %>
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <%= label f, :current_password, for: "current_password_for_password", class: "block text-sm font-medium text-gray-700" %>
+                <div class="mt-1 rounded-md shadow-sm flex">
+                  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                  <%= error_tag f, :current_password %>
+                </div>
+              </div>
+            </div>
+            <div class="pt-6 divide-y divide-gray-200">
+              <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
+                <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                  Cancel
+                </button>
+                <%= submit "Change password", class: "ml-5 bg-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <%= hidden_input f, :action, name: "action", value: "update_email" %>
-
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-  <%= error_tag f, :email %>
-
-  <%= label f, :current_password, for: "current_password_for_email" %>
-  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email" %>
-  <%= error_tag f, :current_password %>
-
-  <div>
-    <%= submit "Change email" %>
   </div>
-<% end %>
-
-<h3>Change password</h3>
-
-<%= form_for @password_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
-  <%= if @password_changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
-    </div>
-  <% end %>
-
-  <%= hidden_input f, :action, name: "action", value: "update_password" %>
-
-  <%= label f, :password, "New password" %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
-
-  <%= label f, :password_confirmation, "Confirm new password" %>
-  <%= password_input f, :password_confirmation, required: true %>
-  <%= error_tag f, :password_confirmation %>
-
-  <%= label f, :current_password, for: "current_password_for_password" %>
-  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password" %>
-  <%= error_tag f, :current_password %>
-
-  <div>
-    <%= submit "Change password" %>
-  </div>
-<% end %>
+</main>

@@ -9,7 +9,7 @@
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
+  <body class="bg-gray-200">
     <nav class="fixed w-full bg-gray-800" x-data="{ menu: false}">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -18,7 +18,7 @@
               <!-- <img class="block lg:hidden h-8 w-auto" src=".svg" alt="Workflow">
               <img class="hidden lg:block h-8 w-auto" src=".svg" alt="Workflow"> -->
             </div>
-            <div class="hidden sm:block sm:ml-6">
+            <%# <div class="hidden sm:block sm:ml-6">
               <div class="flex space-x-4">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                 <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
@@ -26,7 +26,7 @@
                 <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
                 <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Calendar</a>
               </div>
-            </div>
+            </div> %>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex items-center">
@@ -75,10 +75,10 @@
         class="sm:hidden"
         id="mobile-menu">
 
-        <div class="px-2 pt-2 space-y-1">
+        <%# <div class="px-2 pt-2 space-y-1">
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
           <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
-        </div>
+        </div> %>
         <%= if @current_user do %>
         <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
