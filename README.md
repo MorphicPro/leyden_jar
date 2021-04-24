@@ -19,6 +19,7 @@ Check the roadmap below to see whats currently completed
   - [ ] Electric bill analysis
   - [ ] Push Notifications
 
+[![CI](https://github.com/MorphicPro/leyden_jar/actions/workflows/CI.yml/badge.svg)](https://github.com/MorphicPro/leyden_jar/actions/workflows/CI.yml) | [![CD](https://github.com/MorphicPro/leyden_jar/actions/workflows/CD.yml/badge.svg)](https://github.com/MorphicPro/leyden_jar/actions/workflows/CD.yml)
 
 ### Development | Localhost
 
