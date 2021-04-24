@@ -52,7 +52,7 @@ defmodule LeydenJar.MixProject do
       {:sobelow, "~> 0.11", only: :dev},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:floki, ">= 0.30.0", only: :test},
-      {:ex_machina, "~> 2.6.0", only: :test},
+      {:ex_machina, "~> 2.7.0", only: :test},
       {:faker, "~> 0.16.0", only: :test},
       {:excoveralls, "0.14.0", only: [:test, :dev]},
       {:credo, "1.5.5", only: [:dev, :test], runtime: false},
