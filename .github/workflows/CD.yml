@@ -130,7 +130,7 @@ jobs:
             mkdir -p leyden_jar
             mkdir -p leyden_jar/releases
             mkdir -p leyden_jar/releases/${{ github.sha }}
-            tar -xzvf /tmp/_build/prod/prod-${{ github.sha }}.tar.gz --directory ~/leyden_jar/releases/${{ github.sha}}/
+            tar -xzvf /tmp/_build/prod/leyden_jar-${{ github.sha }}.tar.gz --directory ~/leyden_jar/releases/${{ github.sha}}/
             ./leyden_jar/leyden_jar stop
             ln -sfT ~/leyden_jar/releases/${{ github.sha}}/ ~/leyden_jar/current
             ./leyden_jar/leyden_jar start
