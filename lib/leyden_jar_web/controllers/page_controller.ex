@@ -2,6 +2,7 @@ defmodule LeydenJarWeb.PageController do
   use LeydenJarWeb, :controller
 
   def post(conn, params) do
+    IO.inspect(params)
     IO.inspect(params["fulljson"] |> Jason.decode!())
 
     # IO.inspect(conn)

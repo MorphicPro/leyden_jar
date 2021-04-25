@@ -51,7 +51,7 @@ defmodule LeydenJar.Jars.Jar do
     IO.inspect(cs)
 
     cs
-    |> put_change(:api_key, Ecto.UUID.generate())
+    |> put_change(:api_key, UUID.uuid4(:hex))
   end
 
   @doc false
