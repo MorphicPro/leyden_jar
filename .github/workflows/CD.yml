@@ -99,12 +99,12 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
-          HTTP_PORT: ${{ secrets.HTTP_PORT }}
-          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
-          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
+          # HTTP_PORT: ${{ secrets.HTTP_PORT }}
+          # MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          # MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
         run: MIX_ENV=prod mix compile
       - name: Compile assets
         run: |
@@ -114,11 +114,11 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
-          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
-          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
+          # MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          # MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
 
         run: MIX_ENV=prod mix release --version ${{ github.sha }}
       - name: copy file via ssh key
@@ -156,4 +156,4 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            ./leyden_jar/current/bin/prod eval "MorphicPro.Release.migrate"
+            ./leyden_jar/current/bin/prod eval "LeydenJar.Release.migrate"
