@@ -64,7 +64,7 @@ defmodule LeydenJar.MixProject do
       {:faker, "~> 0.16.0", only: :test},
       {:excoveralls, "0.14.0", only: [:test, :dev]},
       {:credo, "1.5.5", only: [:dev, :test], runtime: false},
-      {:sentry, "~> 8.0.3"},
+      # {:sentry, "~> 8.0.3"},
       {:benchee, "~> 1.0", only: :dev}
     ]
   end
