@@ -19,7 +19,7 @@ defmodule LeydenJarWeb.Router do
 
   scope "/", LeydenJarWeb do
     pipe_through :browser
-
+    get "/input/post", PageController, :post
     live "/", PageLive, :index
   end
 
@@ -61,6 +61,13 @@ defmodule LeydenJarWeb.Router do
 
   scope "/", LeydenJarWeb do
     pipe_through [:browser, :require_authenticated_user]
+
+    live "/jars", JarLive.Index, :index
+    live "/jars/new", JarLive.Index, :new
+    live "/jars/:id/edit", JarLive.Index, :edit
+
+    live "/jars/:id", JarLive.Show, :show
+    live "/jars/:id/show/edit", JarLive.Show, :edit
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

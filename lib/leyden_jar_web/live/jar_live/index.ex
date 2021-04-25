@@ -1,0 +1,53 @@
+defmodule LeydenJarWeb.JarLive.Index do
+  use LeydenJarWeb, :live_view
+
+  alias LeydenJar.Jars
+  alias LeydenJar.Jars.Jar
+  alias LeydenJar.Accounts
+
+  @impl true
+  def mount(_params, session, socket) do
+    current_user =
+      session["user_token"] && Accounts.get_user_by_session_token(session["user_token"])
+
+    {:ok,
+     socket
+     |> assign(:jars, list_jars())
+     |> assign(:user_id, current_user.id)}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :edit, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Jar")
+    |> assign(:jar, Jars.get_jar!(id))
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "New Jar")
+    |> assign(:jar, %Jar{})
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:page_title, "Listing Jars")
+    |> assign(:jar, nil)
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    jar = Jars.get_jar!(id)
+    {:ok, _} = Jars.delete_jar(jar)
+
+    {:noreply, assign(socket, :jars, list_jars())}
+  end
+
+  defp list_jars do
+    Jars.list_jars()
+  end
+end
