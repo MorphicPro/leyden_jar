@@ -4,6 +4,12 @@ defmodule LeydenJar.MixProject do
   def project do
     [
       app: :leyden_jar,
+      releases: [
+        prod: [
+          include_executables_for: [:unix],
+          steps: [:assemble, :tar]
+        ]
+      ],
       version: "0.0.1",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),

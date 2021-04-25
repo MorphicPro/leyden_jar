@@ -1,4 +1,4 @@
-<main role="main" >
+<main role="main">
   <%= if get_flash(@conn, :info) do %>
     <!-- This example requires Tailwind CSS v2.0+ -->
     <!-- Global notification live region, render this permanently at the end of the document -->
