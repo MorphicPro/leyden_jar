@@ -44,7 +44,7 @@
             <div class="mt-6">
               <%= label f, :email, class: "block text-sm font-medium text-gray-700" %>
               <div class="mt-1 rounded-md shadow-sm flex">
-                <%= email_input f, :email, required: true, class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                <%= email_input f, :email, required: true, class: "focus:ring-gray-500 focus:border-gray-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
                 <%= error_tag f, :email %>
               </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="mt-6">
               <%= label f, :current_password, for: "current_password_for_email", class: "block text-sm font-medium text-gray-700" %>
               <div class="mt-1 rounded-md shadow-sm flex">
-                <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "focus:ring-gray-500 focus:border-gray-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
                 <%= error_tag f, :current_password %>
               </div>
             </div>
@@ -61,10 +61,10 @@
           <!-- Privacy section -->
           <div class="pt-6 divide-y divide-gray-200">
             <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
-              <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 Cancel
               </button>
-              <%= submit "Change email", class: "ml-5 bg-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              <%= submit "Change email", class: "ml-5 bg-gray-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
             </div>
           </div>
         <% end %>
@@ -86,7 +86,7 @@
               <div class="mt-6">
                 <%= label f, :password, "New password", class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1 rounded-md shadow-sm flex">
-                  <%= password_input f, :password, required: true, class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                  <%= password_input f, :password, required: true, class: "focus:ring-gray-500 focus:border-gray-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
                   <%= error_tag f, :password %>
                 </div>
               </div>
@@ -94,7 +94,7 @@
               <div class="mt-6">
                 <%= label f, :password_confirmation, "Confirm new password", class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1 rounded-md shadow-sm flex">
-                  <%= password_input f, :password_confirmation, required: true, class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                  <%= password_input f, :password_confirmation, required: true, class: "focus:ring-gray-500 focus:border-gray-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
                   <%= error_tag f, :password_confirmation %>
                 </div>
               </div>
@@ -102,17 +102,17 @@
               <div class="mt-6">
                 <%= label f, :current_password, for: "current_password_for_password", class: "block text-sm font-medium text-gray-700" %>
                 <div class="mt-1 rounded-md shadow-sm flex">
-                  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "focus:ring-blue-500 focus:border-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
+                  <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "focus:ring-gray-500 focus:border-gray-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300", autocomplete: "username"  %>
                   <%= error_tag f, :current_password %>
                 </div>
               </div>
             </div>
             <div class="pt-6 divide-y divide-gray-200">
               <div class="mt-4 py-4 px-4 flex justify-end sm:px-6">
-                <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                   Cancel
                 </button>
-                <%= submit "Change password", class: "ml-5 bg-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <%= submit "Change password", class: "ml-5 bg-gray-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
               </div>
             </div>
           <% end %>
