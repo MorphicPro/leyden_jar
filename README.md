@@ -19,8 +19,7 @@ Check the roadmap below to see whats currently completed
   - [ ] Electric bill analysis
   - [ ] Push Notifications
 
-[![CI](https://github.com/MorphicPro/leyden_jar/actions/workflows/CI.yml/badge.svg)](https://github.com/MorphicPro/leyden_jar/actions/workflows/CI.yml) | [![CD](https://github.com/MorphicPro/leyden_jar/actions/workflows/CD.yml/badge.svg)](https://github.com/MorphicPro/leyden_jar/actions/workflows/CD.yml)
-
+[![CI](https://github.com/MorphicPro/leyden_jar/actions/workflows/CI.yml/badge.svg)](https://github.com/MorphicPro/leyden_jar/actions/workflows/CI.yml) [![CD](https://github.com/MorphicPro/leyden_jar/actions/workflows/CD.yml/badge.svg)](https://github.com/MorphicPro/leyden_jar/actions/workflows/CD.yml) [![Coverage Status](https://coveralls.io/repos/github/MorphicPro/leyden_jar/badge.svg?branch=main)](https://coveralls.io/github/MorphicPro/leyden_jar?branch=main)
 ### Development | Localhost
 
 To start your Phoenix server:
