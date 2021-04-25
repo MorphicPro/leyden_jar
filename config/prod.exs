@@ -10,8 +10,13 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :leyden_jar, LeydenJarWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  url: [host: "laydenjar.app", scheme: "https", port: 443],
+  http: [
+    port: String.to_integer(System.get_env("HTTP_PORT") || "4000"),
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true
 
 # Do not print debug messages in production
 config :logger, level: :info
