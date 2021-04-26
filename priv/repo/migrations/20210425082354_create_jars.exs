@@ -1,4 +1,4 @@
-defmodule LeydenJar.Repo.Migrations.CreateJars do
+defmodule LeydenJar.Repo.Migrations.CreateJarPosts do
   use Ecto.Migration
 
   def change do

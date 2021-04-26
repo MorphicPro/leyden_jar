@@ -34,6 +34,9 @@
         </dd>
       </dl> 
       -->
+      <% last_post = Jason.decode!(jar.last_post) %>
+      <p>Temp <%= last_post["temp"] %></p>
+      <p>State <%= last_post["state"] %></p>
     </div>
     <div>
       <div class="-mt-px flex divide-x divide-gray-200">

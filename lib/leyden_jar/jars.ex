@@ -6,7 +6,7 @@ defmodule LeydenJar.Jars do
   import Ecto.Query, warn: false
   alias LeydenJar.Repo
 
-  alias LeydenJar.Jars.Jar
+  alias LeydenJar.Jars.{Jar, Post}
 
   @doc """
   Returns the list of jars.
@@ -36,6 +36,24 @@ defmodule LeydenJar.Jars do
 
   """
   def get_jar!(id), do: Repo.get!(Jar, id)
+
+  @doc """
+  Gets a jar by node and api_key.
+
+  ## Examples
+
+      iex> get_user_by_email_and_password("foo@example.com", "correct_password")
+      %User{}
+
+      iex> get_user_by_email_and_password("foo@example.com", "invalid_password")
+      nil
+
+  """
+  def get_jar_by_node_and_api_key(node, api_key)
+      when is_binary(node) and is_binary(api_key) do
+    jar = Repo.get_by(Jar, node: node)
+    if Jar.valid_api_key?(jar, api_key), do: jar
+  end
 
   @doc """
   Creates a jar.
@@ -100,5 +118,23 @@ defmodule LeydenJar.Jars do
   """
   def change_jar(%Jar{} = jar, attrs \\ %{}) do
     Jar.changeset(jar, attrs)
+  end
+
+  @doc """
+  Creates a jar.
+
+  ## Examples
+
+      iex> create_jar_post(%{field: value})
+      {:ok, %Jar{}}
+
+      iex> create_jar_post(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_jar_post(attrs \\ %{}) do
+    %Post{}
+    |> Post.changeset(attrs)
+    |> Repo.insert()
   end
 end

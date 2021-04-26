@@ -24,7 +24,6 @@ defmodule LeydenJarWeb.JarLive.FormComponent do
       |> Jars.change_jar(jar_params)
       |> Map.put(:action, :validate)
       |> Map.put(:user_id, user_id)
-      |> IO.inspect()
 
     {:noreply, assign(socket, :changeset, changeset)}
   end

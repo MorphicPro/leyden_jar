@@ -19,7 +19,7 @@ defmodule LeydenJarWeb.Router do
 
   scope "/", LeydenJarWeb do
     pipe_through :browser
-    get "/input/post", PageController, :post
+    get "/input/post", PostController, :post
     live "/", PageLive, :index
   end
 
