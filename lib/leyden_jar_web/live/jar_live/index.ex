@@ -7,6 +7,9 @@ defmodule LeydenJarWeb.JarLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
+    if connected?(socket),
+      do: Phoenix.PubSub.subscribe(LeydenJar.PubSub, "jars")
+
     current_user =
       session["user_token"] && Accounts.get_user_by_session_token(session["user_token"])
 
@@ -46,6 +49,22 @@ defmodule LeydenJarWeb.JarLive.Index do
 
     {:noreply, assign(socket, :jars, list_jars())}
   end
+
+  @impl true
+  def handle_info({:jar_updated, %{id: id} = jar}, %{assigns: %{jars: jars}} = socket) do
+    jars =
+      Enum.map(jars, fn
+        %{id: ^id} -> jar
+        p -> p
+      end)
+
+    {:noreply, assign(socket, jars: jars)}
+  end
+
+  # @impl true
+  # def handle_info({:jar_updated, jar}, socket) do
+  #   {:noreply, assign(socket, jar: jar)}
+  # end
 
   defp list_jars do
     Jars.list_jars()
