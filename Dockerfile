@@ -69,7 +69,7 @@ WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=0 --chown=nobody:nobody /app/_build/$release_env/rel/$release_env /app
+COPY --from=0 --chown=nobody:nobody /app/_build/${release_env}/rel/${release_env} /app
 
 USER nobody:nobody
 
