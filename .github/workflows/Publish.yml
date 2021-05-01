@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MIX_ENV: ${{ secrets.MIX_ENV }}
-      MIX_ENV: ${{ secrets.SECRET_KEY_BASE }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
