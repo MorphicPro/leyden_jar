@@ -29,6 +29,10 @@ RUN apk add --no-cache build-base npm git python2
 # prepare build dir
 WORKDIR /app
 
+ARG release_env=prod
+
+ENV MIX_ENV=$release_env
+
 # install hex + rebar
 RUN mix local.hex --force && \
     mix local.rebar --force
@@ -37,7 +41,6 @@ RUN mix local.hex --force && \
 COPY mix.exs mix.lock ./
 COPY config config
 RUN mix do deps.get, deps.compile
-RUN ls -la _build
 
 # build assets
 COPY assets/package.json assets/package-lock.json ./assets/
