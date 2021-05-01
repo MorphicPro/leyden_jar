@@ -59,7 +59,6 @@ RUN mix phx.digest
 COPY lib lib
 COPY rel rel
 RUN mix do compile, release
-RUN ls -la _build/prod/rel
 
 # prepare release image
 FROM alpine:3.9 AS app
@@ -70,8 +69,8 @@ WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=0 --chown=nobody:nobody /app/_build/prod/rel/leyden_jar /app
+COPY --from=0 --chown=nobody:nobody /app/_build/$release_env/rel/$release_env /app
 
 USER nobody:nobody
 
-CMD ["bin/leyden_jar", "start"]
+CMD ["bin/$release_env", "start"]
