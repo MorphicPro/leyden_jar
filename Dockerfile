@@ -59,11 +59,11 @@ FROM alpine:3.9 AS app
 
 RUN apk add --no-cache openssl ncurses-libs
 
-WORKDIR /app
-
 RUN chown nobody:nobody /app
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/leyden_jar /app
+WORKDIR /app
+
+COPY --from=build --chown=nobody:nobody ./_build/prod/rel/leyden_jar .
 
 USER nobody:nobody
 
