@@ -5,6 +5,7 @@ services:
     build: .
     environment:
       - DB_HOST=db
+      - SECRET_KEY_BASE"
     env_file:
       - .env
     command: mix phx.server
