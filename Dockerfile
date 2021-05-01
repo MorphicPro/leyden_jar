@@ -39,6 +39,7 @@ RUN mix local.hex --force && \
 COPY mix.exs mix.lock ./
 COPY config config
 RUN mix do deps.get, deps.compile
+RUN ls -la _build
 
 # build assets
 COPY assets/package.json assets/package-lock.json ./assets/
