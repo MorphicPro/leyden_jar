@@ -30,8 +30,12 @@ RUN apk add --no-cache build-base npm git python2
 WORKDIR /app
 
 ARG release_env=prod
+ARG database_url
+ARG secret_key_base
 
 ENV MIX_ENV=$release_env
+ENV SECRET_KEY_BASE=$secret_key_base
+ENV DATABASE_URL=$database_url
 
 # install hex + rebar
 RUN mix local.hex --force && \

@@ -6,6 +6,10 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    env:
+      MIX_ENV: ${{ secrets.MIX_ENV }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -22,8 +26,13 @@ jobs:
         env:
           MIX_ENV: ${{ secrets.MIX_ENV }}
           SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
           push: true
           tags: user/app:latest
+          build-args: |
+            release_env=${{ secrets.MIX_ENV }}
+            secret_key_base=${{ secrets.SECRET_KEY_BASE }}
+            database_url=${{ secrets.DATABASE_URL }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
