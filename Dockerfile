@@ -21,7 +21,7 @@
 # DATABASE_URL
 # SECRET_KEY_BASE"
 
-FROM elixir:1.11.4-alpine AS build
+FROM elixir:1.11.4-alpine
 
 # install build dependencies
 RUN apk add --no-cache build-base npm git python2
@@ -63,7 +63,7 @@ WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=build --chown=nobody:nobody ./_build/prod/rel/leyden_jar .
+COPY --from=0 --chown=nobody:nobody /app/_build/prod/rel/leyden_jar /app
 
 USER nobody:nobody
 
