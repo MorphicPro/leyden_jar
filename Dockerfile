@@ -33,8 +33,6 @@ WORKDIR /app
 RUN mix local.hex --force && \
     mix local.rebar --force
 
-
-
 # install mix dependencies
 COPY mix.exs mix.lock ./
 COPY config config
