@@ -29,11 +29,10 @@ RUN apk add --no-cache build-base npm git python2
 # prepare build dir
 WORKDIR /app
 
-ARG required release_env
 ARG required database_url
 ARG required secret_key_base
 
-ENV MIX_ENV=${release_env}
+ENV MIX_ENV=prod
 ENV SECRET_KEY_BASE=${secret_key_base}
 ENV DATABASE_URL=${database_url}
 
@@ -69,8 +68,8 @@ WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=0 --chown=nobody:nobody /app/_build/${release_env}/rel/${release_env} /app
+COPY --from=0 --chown=nobody:nobody /app/_build/prod/rel/prod /app
 
 USER nobody:nobody
 
-CMD ["bin/$release_env", "start"]
+CMD ["bin/prod", "start"]
