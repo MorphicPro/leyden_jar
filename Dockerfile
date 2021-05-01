@@ -30,12 +30,12 @@ RUN apk add --no-cache build-base npm git python2
 WORKDIR /app
 
 ARG release_env=prod
-ARG database_url
-ARG secret_key_base
+ARG required database_url
+ARG required secret_key_base
 
-ENV MIX_ENV=$release_env
-ENV SECRET_KEY_BASE=$secret_key_base
-ENV DATABASE_URL=$database_url
+ENV MIX_ENV=${release_env}
+ENV SECRET_KEY_BASE=${secret_key_base}
+ENV DATABASE_URL=${database_url}
 
 # install hex + rebar
 RUN mix local.hex --force && \
@@ -69,7 +69,7 @@ WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=0 --chown=nobody:nobody /app/_build/${release_env}/rel/${release_env} /app
+COPY --from=0 --chown=nobody:nobody "/app/_build/${release_env}/rel/${release_env}" /app
 
 USER nobody:nobody
 
