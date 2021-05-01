@@ -29,7 +29,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
           push: true
-          tags: user/app:latest
+          tags: joshchernoff/leyden_jar:latest
           build-args: |
             release_env=${{ secrets.MIX_ENV }}
             secret_key_base=${{ secrets.SECRET_KEY_BASE }}
