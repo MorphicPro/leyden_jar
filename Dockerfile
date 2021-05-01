@@ -59,7 +59,7 @@ RUN mix phx.digest
 COPY lib lib
 COPY rel rel
 RUN mix do compile, release
-RUN ls -la _build
+RUN ls -la _build/prod/rel
 
 # prepare release image
 FROM alpine:3.9 AS app
