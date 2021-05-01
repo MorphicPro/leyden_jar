@@ -5,9 +5,9 @@ defmodule LeydenJarWeb.JarLiveTest do
 
   alias LeydenJar.Jars
 
-  @create_attrs %{api_key_hash: "some api_key_hash", node: "some node"}
-  @update_attrs %{api_key_hash: "some updated api_key_hash", node: "some updated node"}
-  @invalid_attrs %{api_key_hash: nil, node: nil}
+  @create_attrs %{api_key: "some api_key_hash", node: "some node"}
+  @update_attrs %{api_key: "some updated api_key_hash", node: "some updated node"}
+  @invalid_attrs %{api_key: nil, node: nil}
 
   defp fixture(:jar) do
     {:ok, jar} = Jars.create_jar(@create_attrs)

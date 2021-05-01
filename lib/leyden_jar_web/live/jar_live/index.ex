@@ -15,7 +15,7 @@ defmodule LeydenJarWeb.JarLive.Index do
 
     {:ok,
      socket
-     |> assign(:jars, list_jars())
+     |> assign(:jars, Jars.list_jars_by_user_id(current_user.id))
      |> assign(:user_id, current_user.id)}
   end
 
@@ -47,7 +47,7 @@ defmodule LeydenJarWeb.JarLive.Index do
     jar = Jars.get_jar!(id)
     {:ok, _} = Jars.delete_jar(jar)
 
-    {:noreply, assign(socket, :jars, list_jars())}
+    {:noreply, assign(socket, :jars, Jars.list_jars())}
   end
 
   @impl true
@@ -66,7 +66,7 @@ defmodule LeydenJarWeb.JarLive.Index do
   #   {:noreply, assign(socket, jar: jar)}
   # end
 
-  defp list_jars do
-    Jars.list_jars()
+  defp list_jars(user_id) do
+    Jars.list_jars_by_user_id(user_id)
   end
 end

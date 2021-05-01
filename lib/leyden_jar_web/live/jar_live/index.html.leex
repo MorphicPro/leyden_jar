@@ -34,6 +34,7 @@
         </dd>
       </dl> 
       -->
+      <%= if jar.last_post do %> 
       <% last_post = Jason.decode!(jar.last_post) %>
       <p>amp <%= last_post["amp"] %></p>
       <p>divertmode <%= last_post["divertmode"] %></p>
@@ -49,6 +50,8 @@
       <p>vehicle <%= last_post["vehicle"] %></p>
       <p>voltage <%= last_post["voltage"] %></p>
       <p>wh <%= last_post["wh"] %></p>
+      <% end %>
+
     </div>
     <div>
       <div class="-mt-px flex divide-x divide-gray-200">

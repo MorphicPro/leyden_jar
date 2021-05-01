@@ -17,8 +17,13 @@ defmodule LeydenJar.Jars do
       [%Jar{}, ...]
 
   """
-  def list_jars do
+  def list_jars() do
     Repo.all(Jar)
+  end
+
+  def list_jars_by_user_id(user_id) do
+    from(j in Jar, where: j.user_id == ^user_id)
+    |> Repo.all()
   end
 
   @doc """
