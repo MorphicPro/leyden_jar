@@ -23,16 +23,12 @@ jobs:
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
-        env:
-          MIX_ENV: ${{ secrets.MIX_ENV }}
-          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         with:
           push: true
           tags: joshchernoff/leyden_jar:latest
-          build-args: |
-            release_env=${{ secrets.MIX_ENV }}
-            secret_key_base=${{ secrets.SECRET_KEY_BASE }}
-            database_url=${{ secrets.DATABASE_URL }}
+          # build-args: |
+          #   release_env=${{ secrets.MIX_ENV }}
+          #   secret_key_base=${{ secrets.SECRET_KEY_BASE }}
+          #   database_url=${{ secrets.DATABASE_URL }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

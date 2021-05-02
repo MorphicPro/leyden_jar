@@ -10,7 +10,6 @@
 #   mix local.rebar --force && \
 #   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # ENV APP_HOME /app
-# RUN mkdir $APP_HOME
 # WORKDIR $APP_HOME
 # CMD ["mix", "phx.server"]
 
@@ -21,7 +20,7 @@
 # DATABASE_URL
 # SECRET_KEY_BASE"
 
-FROM elixir:1.11.4-alpine
+FROM elixir:1.11.4-alpine AS build
 
 # install build dependencies
 RUN apk add --no-cache build-base npm git python2
@@ -29,12 +28,12 @@ RUN apk add --no-cache build-base npm git python2
 # prepare build dir
 WORKDIR /app
 
-ARG required database_url
-ARG required secret_key_base
+# ARG required database_url
+# ARG required secret_key_base
 
-ENV MIX_ENV=prod
-ENV SECRET_KEY_BASE=${secret_key_base}
-ENV DATABASE_URL=${database_url}
+# ENV MIX_ENV=prod
+# ENV SECRET_KEY_BASE=${secret_key_base}
+# ENV DATABASE_URL=${database_url}
 
 # install hex + rebar
 RUN mix local.hex --force && \
@@ -68,7 +67,7 @@ WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=0 --chown=nobody:nobody /app/_build/prod/rel/prod /app
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/prod /app
 
 USER nobody:nobody
 
