@@ -2,7 +2,7 @@ defmodule LeydenJarWeb.PostController do
   use LeydenJarWeb, :controller
   alias LeydenJar.Jars
 
-  def post(conn, %{"node" => node, "apikey" => api_key, "fulljson" => full_json} = params) do
+  def post(conn, %{"node" => node, "apikey" => api_key, "fulljson" => full_json} = _params) do
     if jar = Jars.get_jar_by_node_and_api_key(node, api_key) do
       Jars.create_jar_post(%{jar_id: jar.id, full_json: full_json})
 
@@ -35,10 +35,10 @@ defmodule LeydenJarWeb.PostController do
     # api_key_hash
     # node
     # full_json: %{
-    #   "amp" => 21780, current draw on open circuit 
-    #   "divertmode" => 1, ? 
+    #   "amp" => 21780, current draw on open circuit
+    #   "divertmode" => 1, ?
     #   "freeram" => 221164, avaalible ram on the device
-    #   "pilot" => 0, not sure. 
+    #   "pilot" => 0, not sure.
     #   "srssi" => -42, wifi
     #   "state" => 3, see states
     #   "temp" => 188, decimal needs to shift left one spot
@@ -47,7 +47,7 @@ defmodule LeydenJarWeb.PostController do
     #   "temp3" => false, I think triggered
     #   "temp4" => 302.5, decimal needs to shift left one spot
     #   "vehicle" => false, never true ignore
-    #   "voltage" => 240, wall voltage 
+    #   "voltage" => 240, wall voltage
     #   "wh" => 16249
     #  }
   end

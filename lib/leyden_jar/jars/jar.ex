@@ -25,6 +25,7 @@ defmodule LeydenJar.Jars.Jar do
   end
 
   @doc false
+  @spec put_api_key_hash(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   def put_api_key_hash(%{changes: %{api_key: api_key}} = cs) do
     if api_key && cs.valid? do
       cs
@@ -39,6 +40,7 @@ defmodule LeydenJar.Jars.Jar do
   end
 
   @doc false
+  @spec put_current_user(Ecto.Changeset.t(), User.t()) :: Ecto.Changeset.t()
   def put_current_user(cs, %{id: id}) do
     cs
     |> put_change(:user_id, id)
@@ -49,13 +51,13 @@ defmodule LeydenJar.Jars.Jar do
   end
 
   @doc false
-  def put_api_key(%Ecto.Changeset{data: %{api_key: null}, changes: changes} = cs)
+  @spec put_api_key(any) :: any
+  def put_api_key(%Ecto.Changeset{data: %{api_key: "null"}, changes: changes} = cs)
       when map_size(changes) == 0 do
     cs
     |> put_change(:api_key, UUID.uuid4(:hex))
   end
 
-  @doc false
   def put_api_key(cs) do
     cs
   end
@@ -66,6 +68,7 @@ defmodule LeydenJar.Jars.Jar do
   If there is no user or the user doesn't have a password, we call
   `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
+  @spec valid_api_key?(any, any) :: boolean
   def valid_api_key?(%LeydenJar.Jars.Jar{api_key_hash: api_key_hash}, api_key)
       when is_binary(api_key_hash) and byte_size(api_key) > 0 do
     Bcrypt.verify_pass(api_key, api_key_hash)

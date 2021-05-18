@@ -1,18 +1,22 @@
 version: "3"
 services:
   web:
-    container_name: leyden_jar_elixir
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     environment:
       - DB_HOST=db
-    env_file:
-      - .env
-    command: mix phx.server
+    command : mix phx.server
     volumes:
-      - $PWD:/app
+      - $PWD/assets:/app/assets
+      - $PWD/config:/app/config
+      - $PWD/lib:/app/lib
+      - $PWD/priv:/app/priv
+      - $PWD/test:/app/test
+      - $PWD/mix.exs:/app/mix.exs
       - ~/.aws:/root/.aws:ro
     ports:
-      - "127.0.0.1:4001:4001"
+      - "4001:4001"
     depends_on:
       - db
   db:
@@ -21,11 +25,17 @@ services:
     environment:
       POSTGRES_DB: "leyden_jar_dev"
       POSTGRES_HOST_AUTH_METHOD: "trust"
-    container_name: "leyden_jar_postgres"
+    container_name: "leyden_jar_db"
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - data:/var/lib/postgresql/data
+  test_db:
+    image: "postgres:11"
+    environment:
+      POSTGRES_DB: "leyden_jar_test"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    container_name: "leyden_jar_db_test"
 volumes:
   data:
     driver: local

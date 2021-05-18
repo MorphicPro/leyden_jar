@@ -1,26 +1,20 @@
-# Dev container
-# FROM hexpm/elixir:1.11.2-erlang-23.1.1-ubuntu-bionic-20200630
-# RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-#   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential dialog apt-utils gpg-agent \
-#   apt-transport-https software-properties-common git curl postgresql-client inotify-tools && \
-#   curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-#   apt-get update && apt-get install -y nodejs && \
-#   mix local.hex --force && \
-#   mix archive.install hex phx_new 1.5.6 --force && \
-#   mix local.rebar --force && \
-#   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-# ENV APP_HOME /app
-# WORKDIR $APP_HOME
-# CMD ["mix", "phx.server"]
-
-
-# Build container
-# Needed ENV to build
-# MIX_ENV
-# DATABASE_URL
-# SECRET_KEY_BASE"
-
 FROM elixir:1.11.4-alpine AS build
+
+# Using args like this is not secure,
+# We need to revisit this later and clean it up
+
+ARG MIX_ENV=prod
+ARG DATABASE_URL
+ARG SECRET_KEY_BASE
+ARG DEVISE_JWT_SECRET_KEY
+ARG ERL_DIST_PORT
+ARG COOKIE
+
+ENV MIX_ENV=${MIX_ENV}
+ENV DATABASE_URL=${DATABASE_URL}
+ENV SECRET_KEY_BASE=${SECRET_KEY_BASE}
+ENV COOKIE=${COOKIE}
+ENV ERL_DIST_PORT=${ERL_DIST_PORT}
 
 # install build dependencies
 RUN apk add --no-cache build-base npm git python2
@@ -28,14 +22,7 @@ RUN apk add --no-cache build-base npm git python2
 # prepare build dir
 WORKDIR /app
 
-# ARG required database_url
-# ARG required secret_key_base
-
-# ENV MIX_ENV=prod
-# ENV SECRET_KEY_BASE=${secret_key_base}
-# ENV DATABASE_URL=${database_url}
-
-# install hex + rebar
+# install hex + rebarv
 RUN mix local.hex --force && \
     mix local.rebar --force
 
@@ -45,7 +32,8 @@ COPY config config
 RUN mix do deps.get, deps.compile
 
 # build assets
-COPY assets/package.json assets/package-lock.json ./assets/
+COPY assets/package.json ./assets/
+RUN npm --prefix ./assets install
 RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 
 COPY priv priv
@@ -61,14 +49,14 @@ RUN mix do compile, release
 # prepare release image
 FROM alpine:3.9 AS app
 
-RUN apk add --no-cache openssl ncurses-libs
+RUN apk add --no-cache openssl ncurses-libs curl jq 
 
 WORKDIR /app
 
 RUN chown nobody:nobody /app
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/prod /app
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/leyden_jar /app
 
 USER nobody:nobody
 
-CMD ["bin/prod", "start"]
+CMD ["bin/leyden_jar", "start"]

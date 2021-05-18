@@ -1,4 +1,10 @@
 defmodule LeydenJar.Accounts do
+  @type email() :: String.t()
+  @type password() :: String.t()
+  @type attrs() :: map() | nil
+  @type id() :: integer()
+  @type token :: binary()
+
   @moduledoc """
   The Accounts context.
   """
@@ -21,6 +27,7 @@ defmodule LeydenJar.Accounts do
       nil
 
   """
+  @spec get_user_by_email(email()) :: User.t() | nil
   def get_user_by_email(email) when is_binary(email) do
     Repo.get_by(User, email: email)
   end
@@ -37,12 +44,14 @@ defmodule LeydenJar.Accounts do
       nil
 
   """
+  @spec get_user_by_email_and_password(email(), password()) :: User.t() | nil
   def get_user_by_email_and_password(email, password)
       when is_binary(email) and is_binary(password) do
     user = Repo.get_by(User, email: email)
     if User.valid_password?(user, password), do: user
   end
 
+  @spec get_user!(id()) :: User.t()
   @doc """
   Gets a single user.
 
@@ -73,6 +82,7 @@ defmodule LeydenJar.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec register_user(attrs) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def register_user(attrs) do
     %User{}
     |> User.registration_changeset(attrs)
@@ -88,12 +98,14 @@ defmodule LeydenJar.Accounts do
       %Ecto.Changeset{data: %User{}}
 
   """
+  @spec change_user_registration(User.t(), attrs()) :: Ecto.Changeset.t()
   def change_user_registration(%User{} = user, attrs \\ %{}) do
     User.registration_changeset(user, attrs, hash_password: false)
   end
 
   ## Settings
 
+  @spec change_user_email(User.t(), attrs()) :: Ecto.Changeset.t()
   @doc """
   Returns an `%Ecto.Changeset{}` for changing the user email.
 
@@ -107,6 +119,8 @@ defmodule LeydenJar.Accounts do
     User.email_changeset(user, attrs)
   end
 
+  @spec apply_user_email(User.t(), password(), attrs()) ::
+          {:error, Ecto.Changeset.t()} | {:ok, User.t()}
   @doc """
   Emulates that the email will change without actually changing
   it in the database.
@@ -127,6 +141,7 @@ defmodule LeydenJar.Accounts do
     |> Ecto.Changeset.apply_action(:update)
   end
 
+  @spec update_user_email(User.t(), token()) :: :error | :ok
   @doc """
   Updates the user email using the given token.
 
@@ -162,6 +177,7 @@ defmodule LeydenJar.Accounts do
       {:ok, %{to: ..., body: ...}}
 
   """
+  @spec deliver_update_email_instructions(User.t(), email(), fun()) :: {:ok, map}
   def deliver_update_email_instructions(%User{} = user, current_email, update_email_url_fun)
       when is_function(update_email_url_fun, 1) do
     {encoded_token, user_token} = UserToken.build_email_token(user, "change:#{current_email}")
@@ -170,6 +186,7 @@ defmodule LeydenJar.Accounts do
     UserNotifier.deliver_update_email_instructions(user, update_email_url_fun.(encoded_token))
   end
 
+  @spec change_user_password(User.t(), attrs()) :: Ecto.Changeset.t()
   @doc """
   Returns an `%Ecto.Changeset{}` for changing the user password.
 
@@ -183,6 +200,8 @@ defmodule LeydenJar.Accounts do
     User.password_changeset(user, attrs, hash_password: false)
   end
 
+  @spec update_user_password(User.t(), password(), attrs()) ::
+          {:error, Ecto.Changeset.t()} | {:ok, User.t()}
   @doc """
   Updates the user password.
 
@@ -213,6 +232,7 @@ defmodule LeydenJar.Accounts do
 
   ## Session
 
+  @spec generate_user_session_token(User.t()) :: token()
   @doc """
   Generates a session token.
   """
@@ -222,6 +242,7 @@ defmodule LeydenJar.Accounts do
     token
   end
 
+  @spec get_user_by_session_token(token()) :: User.t()
   @doc """
   Gets the user with the given signed token.
   """
@@ -230,6 +251,7 @@ defmodule LeydenJar.Accounts do
     Repo.one(query)
   end
 
+  @spec delete_session_token(token()) :: :ok
   @doc """
   Deletes the signed token with the given context.
   """
@@ -240,6 +262,8 @@ defmodule LeydenJar.Accounts do
 
   ## Confirmation
 
+  @spec deliver_user_confirmation_instructions(User.t(), fun()) ::
+          {:error, :already_confirmed} | {:ok, map}
   @doc """
   Delivers the confirmation email instructions to the given user.
 
@@ -263,6 +287,7 @@ defmodule LeydenJar.Accounts do
     end
   end
 
+  @spec confirm_user(token()) :: :error | {:ok, User.t()}
   @doc """
   Confirms a user by the given token.
 
@@ -287,6 +312,7 @@ defmodule LeydenJar.Accounts do
 
   ## Reset password
 
+  @spec deliver_user_reset_password_instructions(User.t(), fun()) :: {:ok, map}
   @doc """
   Delivers the reset password email to the given user.
 
@@ -303,6 +329,7 @@ defmodule LeydenJar.Accounts do
     UserNotifier.deliver_reset_password_instructions(user, reset_password_url_fun.(encoded_token))
   end
 
+  @spec get_user_by_reset_password_token(token()) :: User.t() | nil
   @doc """
   Gets the user by reset password token.
 
@@ -324,6 +351,7 @@ defmodule LeydenJar.Accounts do
     end
   end
 
+  @spec reset_user_password(User.t(), attrs()) :: {:error, Ecto.Changeset.t()} | {:ok, User.t()}
   @doc """
   Resets the user password.
 

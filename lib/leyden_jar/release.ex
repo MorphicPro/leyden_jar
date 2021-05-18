@@ -6,6 +6,7 @@ defmodule LeydenJar.Release do
 
   @app :leyden_jar
 
+  @spec migrate :: list
   def migrate do
     for repo <- repos() do
       {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))

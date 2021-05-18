@@ -1,0 +1,21 @@
+FROM hexpm/elixir:1.11.4-erlang-23.3.2-ubuntu-focal-20210325
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential dialog apt-utils gpg-agent \
+    apt-transport-https software-properties-common git curl postgresql-client inotify-tools && \
+    curl -fsSL https://deb.nodesource.com/setup_14.x |bash - && \
+    apt-get update && apt-get install -y nodejs python2 && \
+    mix local.hex --force && \
+    mix archive.install hex phx_new 1.5.6 --force && \
+    mix local.rebar --force && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+WORKDIR /app
+COPY ../ .
+RUN mix do deps.get
+RUN npm install --prefix ./assets
+COPY entrypoint.dev.sh /usr/bin/entrypoint.dev.sh
+RUN chmod +x /usr/bin/entrypoint.dev.sh
+ENTRYPOINT ["/usr/bin/entrypoint.dev.sh"]
+EXPOSE 4001
+EXPOSE 4000
+
+CMD /bin/sh -c "while sleep 1000; do :; done"
