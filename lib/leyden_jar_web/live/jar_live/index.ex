@@ -66,7 +66,7 @@ defmodule LeydenJarWeb.JarLive.Index do
   #   {:noreply, assign(socket, jar: jar)}
   # end
 
-  defp list_jars(user_id) do
-    Jars.list_jars_by_user_id(user_id)
-  end
+  # defp list_jars(user_id) do
+  #   Jars.list_jars_by_user_id(user_id)
+  # end
 end

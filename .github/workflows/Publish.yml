@@ -26,6 +26,8 @@ jobs:
         with:
           push: true
           tags: joshchernoff/leyden_jar:latest
+          cache-from: type=registry,ref=joshchernoff/leyden_jar:latest
+          cache-to: type=inline
           # build-args: |
           #   release_env=${{ secrets.MIX_ENV }}
           #   secret_key_base=${{ secrets.SECRET_KEY_BASE }}

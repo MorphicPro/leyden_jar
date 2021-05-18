@@ -1,4 +1,7 @@
 defmodule LeydenJar.Jars do
+  @type id() :: integer()
+  @type attrs() :: map | nil
+
   @moduledoc """
   The Jars context.
   """
@@ -8,6 +11,7 @@ defmodule LeydenJar.Jars do
 
   alias LeydenJar.Jars.{Jar, Post}
 
+  @spec list_jars :: list(Jar.t())
   @doc """
   Returns the list of jars.
 
@@ -21,6 +25,7 @@ defmodule LeydenJar.Jars do
     Repo.all(Jar)
   end
 
+  @spec list_jars_by_user_id(id()) :: list(User.t())
   def list_jars_by_user_id(user_id) do
     from(j in Jar, where: j.user_id == ^user_id)
     |> Repo.all()
@@ -40,6 +45,7 @@ defmodule LeydenJar.Jars do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_jar!(id()) :: Jar.t()
   def get_jar!(id), do: Repo.get!(Jar, id)
 
   @doc """
@@ -48,12 +54,13 @@ defmodule LeydenJar.Jars do
   ## Examples
 
       iex> get_user_by_email_and_password("foo@example.com", "correct_password")
-      %User{}
+      %Jar{}
 
       iex> get_user_by_email_and_password("foo@example.com", "invalid_password")
       nil
 
   """
+  @spec get_jar_by_node_and_api_key(binary, binary) :: Jar.t() | nil
   def get_jar_by_node_and_api_key(node, api_key)
       when is_binary(node) and is_binary(api_key) do
     jar = Repo.get_by(Jar, node: node)
@@ -72,6 +79,7 @@ defmodule LeydenJar.Jars do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_jar(attrs()) :: {:ok, Jar.t()} | {:error, Ecto.Changeset.types()}
   def create_jar(attrs \\ %{}) do
     %Jar{}
     |> Jar.changeset(attrs)
@@ -90,6 +98,7 @@ defmodule LeydenJar.Jars do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_jar(Jar.t(), attrs()) :: {:error, Ecto.Changeset.t()} | {:ok, Jar.t()}
   def update_jar(%Jar{} = jar, attrs) do
     jar
     |> Jar.changeset(attrs)
@@ -108,6 +117,7 @@ defmodule LeydenJar.Jars do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_jar(Jar.t()) :: {:ok, Jar.t()} | {:error, Ecto.Changeset.t()}
   def delete_jar(%Jar{} = jar) do
     Repo.delete(jar)
   end
@@ -121,6 +131,7 @@ defmodule LeydenJar.Jars do
       %Ecto.Changeset{data: %Jar{}}
 
   """
+  @spec change_jar(Jar.t(), attrs()) :: Ecto.Changeset.t()
   def change_jar(%Jar{} = jar, attrs \\ %{}) do
     Jar.changeset(jar, attrs)
   end
@@ -137,6 +148,7 @@ defmodule LeydenJar.Jars do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_jar_post(attrs()) :: {:ok, Jar.t()} | {:error, Ecto.Changeset.t()}
   def create_jar_post(attrs \\ %{}) do
     %Post{}
     |> Post.changeset(attrs)

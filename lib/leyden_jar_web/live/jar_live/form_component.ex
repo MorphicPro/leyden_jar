@@ -28,6 +28,19 @@ defmodule LeydenJarWeb.JarLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  def handle_event(
+        "validate",
+        %{"jar" => jar_params},
+        socket
+      ) do
+    changeset =
+      socket.assigns.jar
+      |> Jars.change_jar(jar_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, :changeset, changeset)}
+  end
+
   def handle_event("save", %{"jar" => jar_params}, %{assigns: %{user_id: user_id}} = socket) do
     save_jar(
       socket,
