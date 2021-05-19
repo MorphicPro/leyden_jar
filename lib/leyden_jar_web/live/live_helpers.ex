@@ -62,15 +62,15 @@ defmodule LeydenJarWeb.LiveHelpers do
   def jar_state_color(n) do
     case n do
       # Starting
-      0 -> " bg-gradient-to-b from-purple-100"
+      0 -> " bg-purple-100"
       # Not Connected
-      1 -> " bg-gradient-to-b from-gray-200"
+      1 -> " bg-gray-200"
       # EV Connected
-      2 -> " bg-gradient-to-b from-yellow-100"
+      2 -> " bg-yellow-100"
       # Charging
-      3 -> " bg-gradient-to-b from-green-100"
+      3 -> " bg-green-100"
       # Vent Required
-      4 -> " bg-gradient-to-b from-red-100"
+      4 -> " bg-red-100"
       # Diode Check Failed
       5 -> " bg-red-100"
       # GFCI Fault
@@ -91,5 +91,10 @@ defmodule LeydenJarWeb.LiveHelpers do
       255 -> " bg-gray-400"
       _ -> ""
     end
+  end
+
+  def scaleString(string, scale, precision) do
+    tmpval = string / scale
+    :erlang.float_to_binary(tmpval, decimals: precision)
   end
 end

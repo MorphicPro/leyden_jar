@@ -17,42 +17,21 @@
 <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   <%= for jar <- @jars do %>
   <% lp = last_post(jar.last_post) %>
-  <li id="jar-<%= jar.id %>" class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200<%= jar_state_color(lp["state"]) %>">
-    <div class="flex-1 flex flex-col p-8">
-      <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= jar.node %></h3>
-      <!--
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">Connection</dt>
-        <dd class="text-gray-500 text-sm">Connected</dd>
-        <dt class="sr-only">Current Charge</dt>
-        <dd class="mt-3">
-          <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Charging</span>
-        </dd>
-      </dl>
-      <dl class="mt-1 flex-grow flex flex-col justify-between">
-        <dt class="sr-only">State</dt>
-        <dd class="mt-3">
-          <%= live_redirect "See full stats", to: Routes.jar_show_path(@socket, :show, jar), class: "text-xs" %>
-        </dd>
-      </dl>
-      -->
+  <li id="jar-<%= jar.id %>" class="col-span-1 flex flex-col bg-white rounded-lg shadow divide-y divide-gray-200">
+    <div class="flex-1 flex flex-col px-6 pb-8">
+      <h3 class="mt-6 pb-4 text-gray-900 text font-bold uppercase"><%= jar.node %></h3>
     <%= if jar.last_post do %>
-      <p>Status: <%= jar_state(lp["state"]) %>
-      <p>amp <%= lp["amp"] %></p>
-      <p>divertmode <%= lp["divertmode"] %></p>
-      <p>freeram <%= lp["freeram"] %></p>
-      <p>pilot <%= lp["pilot"] %></p>
-      <p>srssi <%= lp["srssi"] %></p>
-      <p>state <%= lp["state"] %></p>
-      <p>temp <%= lp["temp"] %></p>
-      <p>temp1 <%= lp["temp1"] %></p>
-      <p>temp2 <%= lp["temp2"] %></p>
-      <p>temp3 <%= lp[ "temp3"] %></p>
-      <p>temp4 <%= lp[ "temp4"] %></p>
-      <p>vehicle <%= lp["vehicle"] %></p>
-      <p>voltage <%= lp["voltage"] %></p>
-      <p>wh <%= lp["wh"] %></p>
-      <p class="pt-4 text-xs">Last event recived: <%= updated_since(jar.updated_at) %></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="text-gray-600 font-bold text-right">Status:</span><span class="col-span-2"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium<%= jar_state_color(lp["state"]) %>"><%= jar_state(lp["state"]) %></span></span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Amps:</span><span class="col-span-2"><%= scaleString(lp["amp"], 1000, 2) %> A</span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Freeram:</span><span class="col-span-2"><%= scaleString(lp["freeram"], 1024, 0) %> K</span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Pilot:</span><span class="col-span-2"><%= lp["pilot"] %></span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">SRSSI:</span><span class="col-span-2"><%= lp["srssi"] %></span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Temp:</span><span class="col-span-2"><%= scaleString(lp["temp"], 10, 1) %>&deg; C</span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Temp2:</span><span class="col-span-2"><%= scaleString(lp["temp2"], 10, 1) %>&deg; C</span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Temp4:</span><span class="col-span-2"><%= scaleString(lp[ "temp4"], 10, 1) %>&deg; C</span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Voltage:</span><span class="col-span-2"><%= scaleString(lp["voltage"], 1, 2) %> V</span></p>
+      <p class="text-sm grid grid-cols-3 gap-4"><span class="font-bold text-right">Wh:</span><span class="col-span-2"><%= scaleString(lp["wh"], 1000, 2) %> kWh</span></p>
+      <p class="pt-4 text-xs">Last event recived: <span class="font-bold"><%= updated_since(jar.updated_at) %></span></p>
     <% else %>
       No status
     <% end %>
