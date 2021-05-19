@@ -16,7 +16,8 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   <%= for jar <- @jars do %>
-  <li id="jar-<%= jar.id %>" class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+  <% lp = last_post(jar.last_post) %>
+  <li id="jar-<%= jar.id %>" class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200<%= jar_state_color(lp["state"]) %>">
     <div class="flex-1 flex flex-col p-8">
       <h3 class="mt-6 text-gray-900 text-sm font-medium"><%= jar.node %></h3>
       <!--
@@ -35,23 +36,25 @@
         </dd>
       </dl>
       -->
-      <%= if jar.last_post do %>
-      <% last_post = Jason.decode!(jar.last_post) %>
-      <p>amp <%= last_post["amp"] %></p>
-      <p>divertmode <%= last_post["divertmode"] %></p>
-      <p>freeram <%= last_post["freeram"] %></p>
-      <p>pilot <%= last_post["pilot"] %></p>
-      <p>srssi <%= last_post["srssi"] %></p>
-      <p>state <%= last_post["state"] %></p>
-      <p>temp <%= last_post["temp"] %></p>
-      <p>temp1 <%= last_post["temp1"] %></p>
-      <p>temp2 <%= last_post["temp2"] %></p>
-      <p>temp3 <%= last_post[ "temp3"] %></p>
-      <p>temp4 <%= last_post[ "temp4"] %></p>
-      <p>vehicle <%= last_post["vehicle"] %></p>
-      <p>voltage <%= last_post["voltage"] %></p>
-      <p>wh <%= last_post["wh"] %></p>
-      <% end %>
+    <%= if jar.last_post do %>
+      <p>Status: <%= jar_state(lp["state"]) %>
+      <p>amp <%= lp["amp"] %></p>
+      <p>divertmode <%= lp["divertmode"] %></p>
+      <p>freeram <%= lp["freeram"] %></p>
+      <p>pilot <%= lp["pilot"] %></p>
+      <p>srssi <%= lp["srssi"] %></p>
+      <p>state <%= lp["state"] %></p>
+      <p>temp <%= lp["temp"] %></p>
+      <p>temp1 <%= lp["temp1"] %></p>
+      <p>temp2 <%= lp["temp2"] %></p>
+      <p>temp3 <%= lp[ "temp3"] %></p>
+      <p>temp4 <%= lp[ "temp4"] %></p>
+      <p>vehicle <%= lp["vehicle"] %></p>
+      <p>voltage <%= lp["voltage"] %></p>
+      <p>wh <%= lp["wh"] %></p>
+    <% else %>
+      No status
+    <% end %>
     </div>
     <div>
       <div class="-mt-px flex divide-x divide-gray-200">
