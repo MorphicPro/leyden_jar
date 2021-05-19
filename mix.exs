@@ -66,7 +66,8 @@ defmodule LeydenJar.MixProject do
       {:credo, "1.5.5", only: [:dev, :test], runtime: false},
       # {:sentry, "~> 8.0.3"},
       {:benchee, "~> 1.0", only: :dev},
-      { :uuid, "~> 1.1" }
+      { :uuid, "~> 1.1" },
+      {:timex, "~> 3.7.5"}
     ]
   end
 

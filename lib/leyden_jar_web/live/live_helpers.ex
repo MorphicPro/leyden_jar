@@ -35,7 +35,7 @@ defmodule LeydenJarWeb.LiveHelpers do
 
   @spec jar_state(n :: any) :: String.t()
   def jar_state(n) do
-    case n |> IO.inspect() do
+    case n do
       0 -> "Starting"
       1 -> "Not Connected"
       2 -> "EV Connected"
@@ -52,6 +52,11 @@ defmodule LeydenJarWeb.LiveHelpers do
       255 -> "Disabled"
       _ -> "Invalid"
     end
+  end
+
+  def updated_since(datetime) do
+    {:ok, time} = Timex.format(datetime, "{relative}", :relative)
+    time
   end
 
   def jar_state_color(n) do

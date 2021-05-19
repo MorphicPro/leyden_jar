@@ -52,6 +52,7 @@
       <p>vehicle <%= lp["vehicle"] %></p>
       <p>voltage <%= lp["voltage"] %></p>
       <p>wh <%= lp["wh"] %></p>
+      <p class="pt-4 text-xs">Last event recived: <%= updated_since(jar.updated_at) %></p>
     <% else %>
       No status
     <% end %>

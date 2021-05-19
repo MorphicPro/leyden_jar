@@ -105,7 +105,7 @@ defmodule LeydenJarWeb.JarLiveTest do
       assert show_live |> element("a", "Edit") |> render_click() =~
                "Edit Jar"
 
-      assert_patch(show_live, Routes.jar_show_path(conn, :edit, jar)) |> IO.inspect
+      assert_patch(show_live, Routes.jar_show_path(conn, :edit, jar))
 
       assert show_live
              |> form("#jar-form", jar: @invalid_attrs)
