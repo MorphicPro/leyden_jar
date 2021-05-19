@@ -1,5 +1,3 @@
-<h1>Listing Jars</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal @socket, LeydenJarWeb.JarLive.FormComponent,
     id: @jar.id || :new,
@@ -13,7 +11,6 @@
 <div class="container mx-auto mt-20 px-4">
 
 <h2>Listing Jars</h2>
-<!-- This example requires Tailwind CSS v2.0+ -->
 <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   <%= for jar <- @jars do %>
   <% lp = last_post(jar.last_post) %>
@@ -21,7 +18,8 @@
     <div class="flex-1 flex flex-col px-6 pb-8">
       <h3 class="mt-6 pb-4 text-gray-900 text font-bold uppercase"><%= jar.node %></h3>
     <%= if jar.last_post do %>
-      <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="text-gray-600 font-bold text-right">Status:</span><span class="col-span-2"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium<%= jar_state_color(lp["state"]) %>"><%= jar_state(lp["state"]) %></span></span></p>
+      <p class="text-sm grid grid-cols-3 gap-4 pb-3"><span class="font-bold text-right">Status:</span><span class="col-span-2"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium<%= jar_state_color(lp["state"]) %>"><%= jar_state(lp["state"]) %></span></span></p>
+      <p class="text-xs grid grid-cols-3 gap-4 pb-2"><span class="font-bold text-right">Last Msg:</span><span class="col-span-2 font-bold"><%= updated_since(jar.updated_at) %></span></p>
       <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Amps:</span><span class="col-span-2"><%= scaleString(lp["amp"], 1000, 2) %> A</span></p>
       <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Freeram:</span><span class="col-span-2"><%= scaleString(lp["freeram"], 1024, 0) %> K</span></p>
       <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Pilot:</span><span class="col-span-2"><%= lp["pilot"] %></span></p>
@@ -31,7 +29,6 @@
       <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Temp4:</span><span class="col-span-2"><%= scaleString(lp[ "temp4"], 10, 1) %>&deg; C</span></p>
       <p class="text-sm grid grid-cols-3 gap-4 pb-1"><span class="font-bold text-right">Voltage:</span><span class="col-span-2"><%= scaleString(lp["voltage"], 1, 2) %> V</span></p>
       <p class="text-sm grid grid-cols-3 gap-4"><span class="font-bold text-right">Wh:</span><span class="col-span-2"><%= scaleString(lp["wh"], 1000, 2) %> kWh</span></p>
-      <p class="pt-4 text-xs">Last event recived: <span class="font-bold"><%= updated_since(jar.updated_at) %></span></p>
     <% else %>
       No status
     <% end %>

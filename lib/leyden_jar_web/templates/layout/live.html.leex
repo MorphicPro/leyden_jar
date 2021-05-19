@@ -1,6 +1,5 @@
 <main role="main">
   <%= if live_flash(@flash, :info) do %>
-    <!-- This example requires Tailwind CSS v2.0+ -->
     <!-- Global notification live region, render this permanently at the end of the document -->
     <div x-data="{flash: true}" aria-live="assertive" :class="{'fixed': flash, 'hidden': !flash }" class="inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end" phx-value-key="info">
       <!--
@@ -43,7 +42,6 @@
   <% end %>
 
   <%= if live_flash(@flash, :error) do %>
-    <!-- This example requires Tailwind CSS v2.0+ -->
     <!-- Global notification live region, render this permanently at the end of the document -->
     <div class="fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end" phx-value-key="error">
       <!--

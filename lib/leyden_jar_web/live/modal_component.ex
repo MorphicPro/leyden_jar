@@ -4,8 +4,7 @@ defmodule LeydenJarWeb.ModalComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <!-- This example requires Tailwind CSS v2.0+ -->
-    <div 
+    <div
       id="<%= @id %>"
       phx-capture-click="close"
       phx-window-keydown="close"
