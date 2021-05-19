@@ -11,10 +11,10 @@ _Note: Early Development - 3/7/2021_
 Check the roadmap below to see whats currently completed
 ### Basic Roadmap:
   - [X] Hosting
-  - [ ] CI
+  - [X] CI
   - [ ] CD
-  - [ ] User registration
-  - [ ] Emoncms style API
+  - [X] User registration
+  - [X] Emoncms style API
   - [ ] Realtime Dash
   - [ ] Electric bill analysis
   - [ ] Push Notifications
