@@ -5,7 +5,7 @@ defmodule LeydenJarWeb.PageLiveTest do
 
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "Hello"
-    assert render(page_live) =~ "Hello"
+    assert disconnected_html =~ "Welcone to Leyden Jar"
+    assert render(page_live) =~ "Welcone to Leyden Jar"
   end
 end
