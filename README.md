@@ -15,7 +15,7 @@ Check the roadmap below to see whats currently completed
   - [ ] CD
   - [X] User registration
   - [X] Emoncms style API
-  - [ ] Realtime Dash
+  - [X] Realtime Dash
   - [ ] Electric bill analysis
   - [ ] Push Notifications
 
