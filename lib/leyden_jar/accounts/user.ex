@@ -13,6 +13,7 @@ defmodule LeydenJar.Accounts.User do
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
 
+    has_many :jars, LeydenJar.Jars.Jar
     timestamps()
   end
 
