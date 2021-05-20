@@ -4,6 +4,8 @@ Site: https://leydenjar.app
 
 A simple EVSE dashboard for your OpenEVSE charger.
 
+<img width="666" alt="Listing_Jars_·_Phoenix_Framework" src="https://user-images.githubusercontent.com/961877/119019680-4621a900-b952-11eb-9ae4-d8a0fd856143.png">
+
 Implamenting the [emoncms](https://emoncms.org/site/api#input) api Leyden Jar can injest your data directly from your OpenEVSE device.
 This allows you to persist your charge session data and compair it to other analyitic statsitc points such as the weather or your electric bill.
 
