@@ -10,7 +10,7 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body class="bg-gray-200">
-    <nav class="fixed w-full bg-gray-800" x-data="{ menu: false}">
+    <nav class="fixed w-full bg-gray-800 z-30 shadow-xl" x-data="{ menu: false}">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
@@ -114,7 +114,6 @@
         </div>
       </div>
     </nav>
-    <div class="container mx-auto lg:px-8 pt-20">Warning: This app is in early development. Use at your own risk.</div>
     <%= @inner_content %>
   </body>
 </html>
