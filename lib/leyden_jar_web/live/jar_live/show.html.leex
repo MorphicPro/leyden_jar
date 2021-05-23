@@ -1,3 +1,6 @@
+
+<div class="container mx-auto px-4 pt-24">
+
 <h1>Show Jar</h1>
 
 <%= if @live_action in [:edit] do %>
@@ -9,19 +12,88 @@
     return_to: Routes.jar_show_path(@socket, :show, @jar) %>
 <% end %>
 
-<ul>
 
-  <li>
-    <strong>Apikey:</strong>
-    <%= @jar.api_key %>
-  </li>
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="flex flex-col">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ID
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                State
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Amp
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Temp
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Total Watt hours
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Free Ram
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Date
+              </th>
+              <th scope="col" class="relative px-6 py-3">
+                <%# <span class="sr-only">Edit</span> %>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          <%= for {k, v} <- @jar.jar_posts |> Enum.group_by(fn %{body: %{"wh" => wh}} -> wh end) do %>
+            <%= for p <- v do %>
+            <tr class="bg-white">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= p.id %>
+              </td>
 
-  <li>
-    <strong>Node:</strong>
-    <%= @jar.node %>
-  </li>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= jar_state(p.body["state"]) %>
+              </td>
 
-</ul>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= scaleString(p.body["amp"], 1000, 2) %> A
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= scaleString(p.body["temp"], 10, 1) %>&deg; C
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+               <%= scaleString(p.body["wh"], 1000, 2) %> kWh
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= scaleString(p.body["freeram"], 1024, 0) %> K
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= p.inserted_at %>
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <%# <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a> %>
+              </td>
+            </tr>
+            <% end %>
+          <% end %>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <span><%= live_patch "Edit", to: Routes.jar_show_path(@socket, :edit, @jar), class: "button" %></span>
 <span><%= live_redirect "Back", to: Routes.jar_index_path(@socket, :index) %></span>
+</div>

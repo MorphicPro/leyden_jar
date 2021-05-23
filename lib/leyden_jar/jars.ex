@@ -46,7 +46,10 @@ defmodule LeydenJar.Jars do
 
   """
   @spec get_jar!(id()) :: Jar.t()
-  def get_jar!(id), do: Repo.get!(Jar, id)
+  def get_jar!(id) do
+    from(j in Jar, preload: :jar_posts)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Gets a jar by node and api_key.
