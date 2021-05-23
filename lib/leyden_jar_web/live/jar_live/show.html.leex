@@ -1,7 +1,7 @@
 
 <div class="container mx-auto px-4 pt-24">
 
-<h1>Show Jar</h1>
+<h1>Showing <%= @jar.node %> Jar</h1>
 
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, LeydenJarWeb.JarLive.FormComponent,

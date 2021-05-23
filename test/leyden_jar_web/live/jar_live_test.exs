@@ -94,8 +94,7 @@ defmodule LeydenJarWeb.JarLiveTest do
 
       {:ok, _show_live, html} = live(conn, Routes.jar_show_path(conn, :show, jar))
 
-      assert html =~ "Show Jar"
-      assert html =~ jar.node
+      assert html =~ "Showing " <> jar.node <> " Jar"
     end
 
     test "updates jar within modal", %{conn: conn, user: user} do
