@@ -47,7 +47,9 @@ defmodule LeydenJar.Jars do
   """
   @spec get_jar!(id()) :: Jar.t()
   def get_jar!(id) do
-    from(j in Jar, preload: :jar_posts)
+    sq = from p in Post, order_by: [desc: p.inserted_at]
+
+    from(j in Jar, preload: [jar_posts: ^sq])
     |> Repo.get!(id)
   end
 
