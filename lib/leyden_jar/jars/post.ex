@@ -15,7 +15,7 @@ defmodule LeydenJar.Jars.Post do
   def changeset(jar, attrs) do
     jar
     |> cast(attrs, [:full_json, :jar_id])
-    |> put_body()
+    |> put_body(attrs)
     |> validate_required([:full_json, :jar_id])
   end
 
@@ -27,6 +27,11 @@ defmodule LeydenJar.Jars.Post do
     |> cast(attrs, [:full_json, :jar_id])
     |> put_body()
     |> validate_required([:full_json, :jar_id])
+  end
+
+  defp put_body(cs, %{full_json: full_json}) do
+    cs
+    |> put_change(:body, Jason.decode!(full_json))
   end
 
   defp put_body(cs) do

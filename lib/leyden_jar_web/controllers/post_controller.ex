@@ -13,6 +13,12 @@ defmodule LeydenJarWeb.PostController do
             "jars",
             {:jar_updated, jar}
           )
+
+          Phoenix.PubSub.broadcast(
+            LeydenJar.PubSub,
+            "jar:#{jar.id}",
+            {:jar_updated, jar}
+          )
       end
 
       send_resp(conn, 200, "{\"success\": true}")

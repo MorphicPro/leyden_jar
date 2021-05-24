@@ -5,7 +5,10 @@ defmodule LeydenJarWeb.JarLive.Show do
   alias LeydenJar.Accounts
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(%{"id" => id}, session, socket) do
+    if connected?(socket),
+      do: Phoenix.PubSub.subscribe(LeydenJar.PubSub, "jar:" <> id)
+
     current_user =
       session["user_token"] && Accounts.get_user_by_session_token(session["user_token"])
 
@@ -20,6 +23,11 @@ defmodule LeydenJarWeb.JarLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:jar, Jars.get_jar!(id))}
+  end
+
+  @impl true
+  def handle_info({:jar_updated, %{id: id}}, socket) do
+    {:noreply, assign(socket, jar: Jars.get_jar!(id))}
   end
 
   defp page_title(:show), do: "Show Jar"
