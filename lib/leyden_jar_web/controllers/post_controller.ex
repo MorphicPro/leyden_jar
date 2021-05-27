@@ -4,7 +4,14 @@ defmodule LeydenJarWeb.PostController do
 
   def post(conn, %{"node" => node, "apikey" => api_key, "fulljson" => full_json} = _params) do
     if jar = Jars.get_jar_by_node_and_api_key(node, api_key) do
-      Jars.create_jar_post(%{jar_id: jar.id, full_json: full_json})
+      case Jars.create_jar_post(%{jar_id: jar.id, full_json: full_json}) do
+        {:ok, post} ->
+          Phoenix.PubSub.broadcast(
+            LeydenJar.PubSub,
+            "jar:#{jar.id}",
+            {:new_post, post}
+          )
+      end
 
       case Jars.update_jar(jar, %{last_post: full_json}) do
         {:ok, jar} ->

@@ -1,7 +1,7 @@
 
 <div class="container mx-auto px-4 pt-24">
 
-<h1>Showing <%= @jar.node %> Jar</h1>
+<h1 class="font-bold text-2xl pb-10">Showing <%= @jar.node %> Jar</h1>
 
 <%= if @live_action in [:edit] do %>
   <%= live_modal @socket, LeydenJarWeb.JarLive.FormComponent,
@@ -14,80 +14,83 @@
 
 
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="flex flex-col">
+<div id="posts" class="flex flex-col" phx-hook="Chart">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                State
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Amp
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Temp
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Total Watt hours
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Free Ram
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date
-              </th>
-              <th scope="col" class="relative px-6 py-3">
-                <%# <span class="sr-only">Edit</span> %>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-          <%= for {k, v} <- @jar.jar_posts |> Enum.group_by(fn %{body: %{"wh" => wh}} -> wh end) |> Enum.sort(&(&1 >= &2)) do %>
-            <%= for p <- v do %>
-            <tr class="bg-white">
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= p.id %>
-              </td>
+      <div class="bg-white shadow overflow-hidden border-b border-gray-200 sm:rounded-lg p-8">
 
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= jar_state(p.body["state"]) %>
-              </td>
+        <canvas id="myChart" height="80"></canvas>
+        <%= for {k, v} <- @jar.jar_posts
+                          |> Enum.group_by(fn %{body: %{"wh" => wh}} -> wh end)
+                          |> Enum.sort(&(&1 >= &2))
+                          do %>
 
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= scaleString(p.body["amp"], 1000, 2) %> A
-              </td>
+        <div id="<%= k %>">
+          <h3>Session: <%= scaleString(k, 1000, 2) %> kWh</h3>
 
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= scaleString(p.body["temp"], 10, 1) %>&deg; C
-              </td>
+          <table class="px-24 min-w-full divide-y divide-gray-200">
+            <thead class="">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  State
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Amp
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Temp
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Free Ram
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                  <%# <span class="sr-only">Edit</span> %>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for p <- v do %>
+              <tr class="bg-white">
 
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-               <%= scaleString(p.body["wh"], 1000, 2) %> kWh
-              </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= p.id %>
+                </td>
 
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= scaleString(p.body["freeram"], 1024, 0) %> K
-              </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= jar_state(p.body["state"]) %>
+                </td>
 
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= p.inserted_at %>
-              </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= scaleString(p.body["amp"], 1000, 2) %> A
+                </td>
 
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <%# <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a> %>
-              </td>
-            </tr>
-            <% end %>
-          <% end %>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= scaleString(p.body["temp"], 10, 1) %>&deg; C
+                </td>
 
-          </tbody>
-        </table>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= scaleString(p.body["freeram"], 1024, 0) %> K
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <%= p.inserted_at %>
+                </td>
+
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <%# <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a> %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <% end %>
       </div>
     </div>
   </div>
