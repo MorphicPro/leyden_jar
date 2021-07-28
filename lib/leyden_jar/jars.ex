@@ -61,7 +61,7 @@ defmodule LeydenJar.Jars do
   def get_latest_session_from_jar_id!(id) do
     from(s in Session,
       where: s.jar_id == ^id,
-      order_by: [desc: s.inserted_at],
+      order_by: [desc: s.wh],
       preload: [:posts],
       limit: 1
     )
