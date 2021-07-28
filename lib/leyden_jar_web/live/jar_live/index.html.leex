@@ -32,6 +32,11 @@
     <% else %>
       No status
     <% end %>
+
+    <%= for session <- jar.jar_sessions do %>
+      <p class="text-sm grid grid-cols-3 gap-4"><span class="font-bold text-right">Sessions:</span><span class="col-span-2"><%= scaleString(session.wh, 1000, 2) %> kWh</span></p>
+    <% end %>
+
     </div>
     <div>
       <div class="-mt-px flex divide-x divide-gray-200">

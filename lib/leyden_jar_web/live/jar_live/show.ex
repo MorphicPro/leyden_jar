@@ -20,13 +20,17 @@ defmodule LeydenJarWeb.JarLive.Show do
   end
 
   @impl true
+  @spec handle_params(map, any, Phoenix.LiveView.Socket.t()) ::
+          {:noreply, Phoenix.LiveView.Socket.t()}
   def handle_params(%{"id" => id}, _, socket) do
     jar = Jars.get_jar!(id)
+    session = Jars.get_latest_session_from_jar_id!(id)
 
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:jar, jar)}
+     |> assign(:jar, jar)
+     |> assign(:session, session)}
   end
 
   @impl true

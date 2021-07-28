@@ -21,10 +21,10 @@
 
         <canvas id="myChart" height="80"></canvas>
 
-        <%= for session <- @jar.jar_sessions do %>
 
-        <div id="<%= session.wh %>">
-          <h3>Session: <%= scaleString(session.wh, 1000, 2) %> kWh</h3>
+
+        <div id="<%= @session.wh %>">
+          <h3>Session: <%= scaleString(@session.wh, 1000, 2) %> kWh</h3>
 
           <table class="px-24 min-w-full divide-y divide-gray-200">
             <thead class="">
@@ -53,7 +53,7 @@
               </tr>
             </thead>
             <tbody>
-              <%= for p <- session.posts do %>
+              <%= for p <- @session.posts do %>
               <tr class="bg-white">
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -88,7 +88,6 @@
             </tbody>
           </table>
         </div>
-        <% end %>
       </div>
     </div>
   </div>

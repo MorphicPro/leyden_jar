@@ -27,7 +27,9 @@ defmodule LeydenJar.Jars do
 
   @spec list_jars_by_user_id(id()) :: list(User.t())
   def list_jars_by_user_id(user_id) do
-    from(j in Jar, where: j.user_id == ^user_id)
+    sessions_sq = from(s in Session, order_by: [desc: s.inserted_at])
+
+    from(j in Jar, where: j.user_id == ^user_id, preload: [jar_sessions: ^sessions_sq])
     |> Repo.all()
   end
 
@@ -47,13 +49,23 @@ defmodule LeydenJar.Jars do
   """
   @spec get_jar!(id()) :: Jar.t()
   def get_jar!(id) do
-    post_sq = from p in Post, order_by: [desc: p.inserted_at]
+    # post_sq = from p in Post, order_by: [desc: p.inserted_at]
 
-    session_sq =
-      from s in Session, order_by: [desc: s.inserted_at], limit: 1, preload: [posts: ^post_sq]
+    # session_sq =
+    #   from s in Session, order_by: [desc: s.inserted_at], limit: 1, preload: [posts: ^post_sq]
 
-    from(j in Jar, preload: [jar_sessions: ^session_sq])
+    from(j in Jar)
     |> Repo.get!(id)
+  end
+
+  def get_latest_session_from_jar_id!(id) do
+    from(s in Session,
+      where: s.jar_id == ^id,
+      order_by: [desc: s.inserted_at],
+      preload: [:posts],
+      limit: 1
+    )
+    |> Repo.one!()
   end
 
   @doc """
