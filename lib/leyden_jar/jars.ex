@@ -106,6 +106,13 @@ defmodule LeydenJar.Jars do
     |> Repo.insert()
   end
 
+  @spec create_session(attrs()) :: {:ok, Session.t()} | {:error, Ecto.Changeset.types()}
+  def create_session(attrs \\ %{}) do
+    %Session{}
+    |> Session.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Updates a jar.
 

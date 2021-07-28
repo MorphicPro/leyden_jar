@@ -91,6 +91,7 @@ defmodule LeydenJarWeb.JarLiveTest do
 
     test "displays jar", %{conn: conn, user: user} do
       {:ok, jar} = Jars.create_jar(%{api_key: UUID.uuid4(:hex), node: Faker.Pokemon.name(), user_id: user.id})
+      {:ok, session} = Jars.create_session(%{state: 0, jar_id: jar.id, wh: Enum.random(0..20000)})
 
       {:ok, _show_live, html} = live(conn, Routes.jar_show_path(conn, :show, jar))
 
@@ -99,6 +100,8 @@ defmodule LeydenJarWeb.JarLiveTest do
 
     test "updates jar within modal", %{conn: conn, user: user} do
       {:ok, jar} = Jars.create_jar(%{api_key: UUID.uuid4(:hex), node: Faker.Pokemon.name(), user_id: user.id})
+      {:ok, session} = Jars.create_session(%{state: 0, jar_id: jar.id, wh: Enum.random(0..20000)})
+
       {:ok, show_live, _html} = live(conn, Routes.jar_show_path(conn, :show, jar))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
