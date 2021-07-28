@@ -34,7 +34,6 @@ defmodule LeydenJarWeb.JarLive.Show do
   end
 
   @impl true
-  @spec handle_event(<<_::80>>, any, Phoenix.LiveView.Socket.t()) :: {:noreply, map}
   def handle_event(
         "load-chart",
         _,
@@ -77,7 +76,7 @@ defmodule LeydenJarWeb.JarLive.Show do
     %{posts: posts} =
       from(s in LeydenJar.Jars.Session,
         where: s.jar_id == ^id,
-        order_by: [desc: :inserted_at],
+        order_by: [desc: :wh],
         limit: 1,
         preload: [posts: ^posts_q]
       )
