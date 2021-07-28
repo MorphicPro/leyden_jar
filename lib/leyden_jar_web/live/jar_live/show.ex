@@ -33,15 +33,50 @@ defmodule LeydenJarWeb.JarLive.Show do
   def handle_event(
         "load-chart",
         _,
-        %{assigns: %{jar: %LeydenJar.Jars.Jar{id: id} = jar}} = socket
+        %{assigns: %{jar: %LeydenJar.Jars.Jar{id: id}}} = socket
       ) do
-    IO.inspect(socket)
+    # sql = """
+    # select * from jar_posts jp where (jp.body ->> 'wh')::int in
+    # (SELECT distinct (jp2.body #>>'{wh}')::int AS wh from jar_posts jp2 order by wh desc limit 1)
+    # order by jp.id desc;
+    # """
 
-    posts =
-      from(p in LeydenJar.Jars.Post, where: p.jar_id == ^id, order_by: :inserted_at)
-      |> LeydenJar.Repo.all()
+    # %Postgrex.Result{rows: rows, columns: columns} =
+    #   Ecto.Adapters.SQL.query!(
+    #     LeydenJar.Repo,
+    #     sql
+    #   )
 
-    # %{jar_posts: posts} = jar |> LeydenJar.Repo.preload([:jar_posts])
+    # {_, body_index} =
+    #   columns
+    #   |> Enum.with_index()
+    #   |> Enum.find(fn {value, _index} -> value == "body" end)
+    #   |> IO.inspect()
+
+    # for row <- rows do
+    #   Enum.at(row, body_index) |> IO.inspect()
+    # end
+
+    # data =
+    #   Enum.map(rows, fn row -> Enum.at(row, body_index) end)
+    #   |> Enum.map(fn %{"amp" => amp, "temp" => temp} ->
+    #     %{amp: scaleString(amp, 1000, 2), temp: scaleString(temp, 10, 1)}
+    #   end)
+
+    # posts =
+    #   from(p in LeydenJar.Jars.Post, where: p.jar_id == ^id, order_by: :inserted_at, limit: 1000)
+    #   |> LeydenJar.Repo.all()
+
+    posts_q = from p in LeydenJar.Jars.Post, order_by: [asc: :inserted_at]
+
+    %{posts: posts} =
+      from(s in LeydenJar.Jars.Session,
+        where: s.jar_id == ^id,
+        order_by: [desc: :inserted_at],
+        limit: 1,
+        preload: [posts: ^posts_q]
+      )
+      |> LeydenJar.Repo.one()
 
     data =
       posts

@@ -1,7 +1,7 @@
 <main role="main">
   <%= if live_flash(@flash, :info) do %>
     <!-- Global notification live region, render this permanently at the end of the document -->
-    <div x-data="{flash: true}" aria-live="assertive" :class="{'fixed': flash, 'hidden': !flash }" class="inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end" phx-value-key="info">
+    <div x-data="{flash: true}" aria-live="assertive" :class="{'fixed': flash, 'hidden': !flash }" class="z-30 inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end" phx-value-key="info">
       <!--
         Notification panel, dynamically insert this into the live region when it needs to be displayed
 

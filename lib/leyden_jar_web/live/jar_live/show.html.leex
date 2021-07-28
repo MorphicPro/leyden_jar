@@ -20,13 +20,11 @@
       <div class="bg-white shadow overflow-hidden border-b border-gray-200 sm:rounded-lg p-8">
 
         <canvas id="myChart" height="80"></canvas>
-        <%= for {k, v} <- @jar.jar_posts
-                          |> Enum.group_by(fn %{body: %{"wh" => wh}} -> wh end)
-                          |> Enum.sort(&(&1 >= &2))
-                          do %>
 
-        <div id="<%= k %>">
-          <h3>Session: <%= scaleString(k, 1000, 2) %> kWh</h3>
+        <%= for session <- @jar.jar_sessions do %>
+
+        <div id="<%= session.wh %>">
+          <h3>Session: <%= scaleString(session.wh, 1000, 2) %> kWh</h3>
 
           <table class="px-24 min-w-full divide-y divide-gray-200">
             <thead class="">
@@ -55,7 +53,7 @@
               </tr>
             </thead>
             <tbody>
-              <%= for p <- v do %>
+              <%= for p <- session.posts do %>
               <tr class="bg-white">
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

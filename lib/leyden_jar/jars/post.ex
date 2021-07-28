@@ -5,18 +5,19 @@ defmodule LeydenJar.Jars.Post do
   schema "jar_posts" do
     field :full_json, :string
     field :jar_id, :id
+    field :session_id, :id
     field :body, :map
-    # belongs_to :jar, LeydenJar.Jars.J
-
+    # belongs_to :jar, LeydenJar.Jars.Jar
+    # belongs_to :session, LeydenJar.Jar.Session
     timestamps()
   end
 
   @doc false
   def changeset(jar, attrs) do
     jar
-    |> cast(attrs, [:full_json, :jar_id])
+    |> cast(attrs, [:full_json, :jar_id, :session_id])
     |> put_body(attrs)
-    |> validate_required([:full_json, :jar_id])
+    |> validate_required([:full_json, :jar_id, :session_id])
   end
 
   # SELECT jar_id, json_agg(body) as body FROM jar_posts WHERE body ->> 'state' = '3' GROUP BY jar_id, body #>> '{wh}';

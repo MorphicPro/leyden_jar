@@ -42,20 +42,20 @@ defmodule LeydenJar.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 2.3"},
-      {:phoenix, "~> 1.5.8"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.5.3"},
-      {:postgrex, ">= 0.15.7"},
-      {:phoenix_live_view, "~> 0.15.1"},
-      {:phoenix_html, "~> 2.11"},
+      {:phoenix, "~> 1.5.9"},
+      {:phoenix_ecto, "~> 4.2"},
+      {:ecto_sql, "~> 3.6.2"},
+      {:postgrex, "~> 0.15.9"},
+      {:phoenix_live_view, "~> 0.15.7"},
+      {:phoenix_html, "~> 2.14.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.4"},
-      {:ecto_psql_extras, "~>0.6.2"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
+      {:ecto_psql_extras, "~>0.6.5"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 0.5.1"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.2", override: true},
-      {:plug_cowboy, "~> 2.4.1"},
+      {:plug_cowboy, "~> 2.5.0"},
       {:phx_gen_auth, "~> 0.7", only: [:dev], runtime: false},
       {:sobelow, "~> 0.11", only: :dev},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
@@ -64,10 +64,9 @@ defmodule LeydenJar.MixProject do
       {:faker, "~> 0.16.0", only: :test},
       {:excoveralls, "0.14.0", only: [:test, :dev]},
       {:credo, "1.5.5", only: [:dev, :test], runtime: false},
-      # {:sentry, "~> 8.0.3"},
       {:benchee, "~> 1.0", only: :dev},
-      { :uuid, "~> 1.1" },
-      {:timex, "~> 3.7.5"}
+      {:uuid, "~> 1.1" },
+      {:timex, "~> 3.7.5"},
     ]
   end
 

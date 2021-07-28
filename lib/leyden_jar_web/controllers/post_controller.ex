@@ -4,31 +4,91 @@ defmodule LeydenJarWeb.PostController do
 
   def post(conn, %{"node" => node, "apikey" => api_key, "fulljson" => full_json} = _params) do
     if jar = Jars.get_jar_by_node_and_api_key(node, api_key) do
-      case Jars.create_jar_post(%{jar_id: jar.id, full_json: full_json}) do
-        {:ok, post} ->
+      # start a ecto transaction
+      # Find or create session for Jar.ID and full_json -> wh
+      # if session found update state
+      # insert post for given session and jar
+
+      %{"wh" => wh, "state" => state} =
+        full_json
+        |> Jason.decode!()
+
+      multi_results =
+        Ecto.Multi.new()
+        |> Ecto.Multi.run(:jar_session, fn repo, _ ->
+          case repo.get_by(LeydenJar.Jars.Session, wh: wh, jar_id: jar.id) |> IO.inspect() do
+            %LeydenJar.Jars.Session{} = session ->
+              session
+              |> LeydenJar.Jars.Session.changeset(%{state: state})
+              |> repo.update()
+
+            _ ->
+              %LeydenJar.Jars.Session{}
+              |> LeydenJar.Jars.Session.changeset(%{wh: wh, jar_id: jar.id, state: state})
+              |> repo.insert()
+          end
+        end)
+        |> Ecto.Multi.insert(
+          :post,
+          fn %{jar_session: %LeydenJar.Jars.Session{id: session_id}} ->
+            LeydenJar.Jars.Post.changeset(%LeydenJar.Jars.Post{}, %{
+              jar_id: jar.id,
+              session_id: session_id,
+              full_json: full_json
+            })
+          end
+        )
+        |> LeydenJar.Repo.transaction()
+
+      case multi_results do
+        {:ok, %{jar_session: jar_session, post: post}} ->
           Phoenix.PubSub.broadcast(
             LeydenJar.PubSub,
-            "jar:#{jar.id}",
+            "jar:#{post.jar_id}",
             {:new_post, post}
           )
-      end
 
-      case Jars.update_jar(jar, %{last_post: full_json}) do
-        {:ok, jar} ->
           Phoenix.PubSub.broadcast(
             LeydenJar.PubSub,
             "jars",
-            {:jar_updated, jar}
+            {:jar_updated, %{id: post.jar_id}}
           )
 
           Phoenix.PubSub.broadcast(
             LeydenJar.PubSub,
-            "jar:#{jar.id}",
-            {:jar_updated, jar}
+            "jar:#{post.jar_id}",
+            {:jar_updated, post.jar_id}
           )
+
+          send_resp(conn, 200, "{\"success\": true}")
+
+        _ ->
+          send_resp(conn, 422, "{\"success\": false}")
       end
 
-      send_resp(conn, 200, "{\"success\": true}")
+      # case Jars.create_jar_post(%{jar_id: jar.id, full_json: full_json}) do
+      #   {:ok, post} ->
+      #     Phoenix.PubSub.broadcast(
+      #       LeydenJar.PubSub,
+      #       "jar:#{jar.id}",
+      #       {:new_post, post}
+      #     )
+      # end
+
+      # case Jars.update_jar(jar, %{last_post: full_json}) do
+      #   {:ok, jar} ->
+      #     Phoenix.PubSub.broadcast(
+      #       LeydenJar.PubSub,
+      #       "jars",
+      #       {:jar_updated, jar}
+      #     )
+
+      #     Phoenix.PubSub.broadcast(
+      #       LeydenJar.PubSub,
+      #       "jar:#{jar.id}",
+      #       {:jar_updated, jar}
+      #     )
+      # end
     else
       send_resp(conn, 401, "{\"success\": false}")
     end

@@ -9,7 +9,7 @@ defmodule LeydenJar.Jars do
   import Ecto.Query, warn: false
   alias LeydenJar.Repo
 
-  alias LeydenJar.Jars.{Jar, Post}
+  alias LeydenJar.Jars.{Jar, Post, Session}
 
   @spec list_jars :: list(Jar.t())
   @doc """
@@ -47,9 +47,12 @@ defmodule LeydenJar.Jars do
   """
   @spec get_jar!(id()) :: Jar.t()
   def get_jar!(id) do
-    sq = from p in Post, order_by: [desc: p.inserted_at]
+    post_sq = from p in Post, order_by: [desc: p.inserted_at]
 
-    from(j in Jar, preload: [jar_posts: ^sq])
+    session_sq =
+      from s in Session, order_by: [desc: s.inserted_at], limit: 1, preload: [posts: ^post_sq]
+
+    from(j in Jar, preload: [jar_sessions: ^session_sq])
     |> Repo.get!(id)
   end
 

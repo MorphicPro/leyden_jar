@@ -1,7 +1,7 @@
 defmodule LeydenJar.Jars.Jar do
   use Ecto.Schema
   import Ecto.Changeset
-  alias LeydenJar.Jars.Post
+  alias LeydenJar.Jars.{Post, Session}
 
   schema "jars" do
     field :api_key, :string, virtual: true
@@ -10,6 +10,7 @@ defmodule LeydenJar.Jars.Jar do
     field :user_id, :id
     field :last_post, :string
     has_many :jar_posts, Post
+    has_many :jar_sessions, Session
     timestamps()
   end
 
