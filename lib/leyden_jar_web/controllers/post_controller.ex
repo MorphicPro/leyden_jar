@@ -57,7 +57,7 @@ defmodule LeydenJarWeb.PostController do
           Phoenix.PubSub.broadcast(
             LeydenJar.PubSub,
             "jar:#{post.jar_id}",
-            {:jar_updated, post.jar_id}
+            {:jar_updated, %{id: post.jar_id}}
           )
 
           send_resp(conn, 200, "{\"success\": true}")
