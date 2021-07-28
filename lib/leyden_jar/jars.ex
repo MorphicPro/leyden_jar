@@ -27,7 +27,7 @@ defmodule LeydenJar.Jars do
 
   @spec list_jars_by_user_id(id()) :: list(User.t())
   def list_jars_by_user_id(user_id) do
-    sessions_sq = from(s in Session, order_by: [desc: s.inserted_at])
+    sessions_sq = from(s in Session, order_by: [desc: s.wh])
 
     from(j in Jar, where: j.user_id == ^user_id, preload: [jar_sessions: ^sessions_sq])
     |> Repo.all()

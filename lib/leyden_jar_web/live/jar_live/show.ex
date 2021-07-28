@@ -34,6 +34,7 @@ defmodule LeydenJarWeb.JarLive.Show do
   end
 
   @impl true
+  @spec handle_event(<<_::80>>, any, Phoenix.LiveView.Socket.t()) :: {:noreply, map}
   def handle_event(
         "load-chart",
         _,

@@ -20,9 +20,6 @@ defmodule LeydenJar.Jars.Post do
     |> validate_required([:full_json, :jar_id, :session_id])
   end
 
-  # SELECT jar_id, json_agg(body) as body FROM jar_posts WHERE body ->> 'state' = '3' GROUP BY jar_id, body #>> '{wh}';
-  # (from p in LeydenJar.Jars.Post, select: [p.id, p.inserted_at, p.body], group_by: [p.id, fragment("? #>> ?", p.body, "{wh}")]) |> LeydenJar.Repo.all
-  # for post <- posts, do: LeydenJar.Jars.Post.change_jsonb(post, %{}) |> LeydenJar.Repo.update
   def change_jsonb(jar, attrs) do
     jar
     |> cast(attrs, [:full_json, :jar_id])
