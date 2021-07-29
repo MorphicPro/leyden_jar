@@ -38,6 +38,14 @@ defmodule LeydenJarWeb.PostController do
             })
           end
         )
+        |> Ecto.Multi.update(
+          :jar,
+          fn _ ->
+            LeydenJar.Jars.Jar.changeset(jar, %{
+              last_post: full_json
+            })
+          end
+        )
         |> LeydenJar.Repo.transaction()
 
       case multi_results do
@@ -58,6 +66,12 @@ defmodule LeydenJarWeb.PostController do
             LeydenJar.PubSub,
             "jar:#{post.jar_id}",
             {:jar_updated, %{id: post.jar_id}}
+          )
+
+          Phoenix.PubSub.broadcast(
+            LeydenJar.PubSub,
+            "jar_session:#{jar_session.jar_id}",
+            {:jar_session_update, %{id: jar_session.id}}
           )
 
           send_resp(conn, 200, "{\"success\": true}")

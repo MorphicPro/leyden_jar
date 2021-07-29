@@ -18,14 +18,18 @@
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
       <div class="bg-white shadow overflow-hidden border-b border-gray-200 sm:rounded-lg p-8">
+        <div>
+          <label for="location" class="block text-sm font-medium text-gray-700">Session</label>
+          <select id="location" name="location" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+            <%= for session <- @jar.jar_sessions do %>
+            <option value="<%= session.id %>"><%= scaleString(session.wh, 1000, 2) %> kWh</option>
+            <% end %>
+          </select>
+        </div>
 
         <canvas id="myChart" height="80"></canvas>
 
-
-
         <div id="<%= @session.wh %>">
-          <h3>Session: <%= scaleString(@session.wh, 1000, 2) %> kWh</h3>
-
           <table class="px-24 min-w-full divide-y divide-gray-200">
             <thead class="">
               <tr>

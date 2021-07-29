@@ -47,15 +47,12 @@ defmodule LeydenJar.Jars do
       ** (Ecto.NoResultsError)
 
   """
-  @spec get_jar!(id()) :: Jar.t()
-  def get_jar!(id) do
-    # post_sq = from p in Post, order_by: [desc: p.inserted_at]
+  def get_jar!(id, options \\ []) do
+    preload = Keyword.get(options, :preload, [])
 
-    # session_sq =
-    #   from s in Session, order_by: [desc: s.inserted_at], limit: 1, preload: [posts: ^post_sq]
-
-    from(j in Jar)
-    |> Repo.get!(id)
+    from(j in Jar, where: j.id == ^id)
+    |> from(preload: ^preload)
+    |> Repo.one!()
   end
 
   def get_latest_session_from_jar_id!(id) do

@@ -20,10 +20,29 @@ defmodule LeydenJarWeb.JarLive.Show do
   end
 
   @impl true
+  def handle_params(%{"id" => id, "session" => param_session_id} = params, _, socket) do
+    jar = Jars.get_jar!(id, preload: [:jar_sessions])
+    params |> IO.inspect()
+
+    session =
+      jar.jar_sessions
+      |> IO.inspect()
+      |> Enum.find(fn %{id: session_id} -> String.to_integer(param_session_id) == session_id end)
+      |> LeydenJar.Repo.preload(:posts)
+      |> IO.inspect()
+
+    {:noreply,
+     socket
+     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:jar, jar)
+     |> assign(:session, session)}
+  end
+
   @spec handle_params(map, any, Phoenix.LiveView.Socket.t()) ::
           {:noreply, Phoenix.LiveView.Socket.t()}
-  def handle_params(%{"id" => id}, _, socket) do
-    jar = Jars.get_jar!(id)
+  def handle_params(%{"id" => id} = params, _, socket) do
+    IO.inspect(params)
+    jar = Jars.get_jar!(id, preload: [:jar_sessions])
     session = Jars.get_latest_session_from_jar_id!(id)
 
     {:noreply,
@@ -95,7 +114,7 @@ defmodule LeydenJarWeb.JarLive.Show do
 
   @impl true
   def handle_info({:jar_updated, %{id: id}}, socket) do
-    {:noreply, assign(socket, jar: Jars.get_jar!(id))}
+    {:noreply, assign(socket, jar: Jars.get_jar!(id, preload: [:jar_sessions]))}
   end
 
   def handle_info(
