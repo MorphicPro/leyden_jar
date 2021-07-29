@@ -58,7 +58,6 @@ let Hooks = {
         self.handleEvent("inital_data", ({ new_data }) => {
           let amps = new_data.map(({ amp }) => amp)
           let temps = new_data.map(({ temp }) => temp)
-          console.debug(new_data)
 
           const data = myChart.data
           data.labels = amps.map(() => "")

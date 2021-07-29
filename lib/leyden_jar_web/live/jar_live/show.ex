@@ -20,16 +20,13 @@ defmodule LeydenJarWeb.JarLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id, "session" => param_session_id} = params, _, socket) do
+  def handle_params(%{"id" => id, "session" => param_session_id}, _, socket) do
     jar = Jars.get_jar!(id, preload: [:jar_sessions])
-    params |> IO.inspect()
 
     session =
       jar.jar_sessions
-      |> IO.inspect()
       |> Enum.find(fn %{id: session_id} -> String.to_integer(param_session_id) == session_id end)
       |> LeydenJar.Repo.preload(:posts)
-      |> IO.inspect()
 
     {:noreply,
      socket
@@ -40,8 +37,7 @@ defmodule LeydenJarWeb.JarLive.Show do
 
   @spec handle_params(map, any, Phoenix.LiveView.Socket.t()) ::
           {:noreply, Phoenix.LiveView.Socket.t()}
-  def handle_params(%{"id" => id} = params, _, socket) do
-    IO.inspect(params)
+  def handle_params(%{"id" => id}, _, socket) do
     jar = Jars.get_jar!(id, preload: [:jar_sessions])
     session = Jars.get_latest_session_from_jar_id!(id)
 

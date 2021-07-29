@@ -16,7 +16,7 @@ defmodule LeydenJarWeb.PostController do
       multi_results =
         Ecto.Multi.new()
         |> Ecto.Multi.run(:jar_session, fn repo, _ ->
-          case repo.get_by(LeydenJar.Jars.Session, wh: wh, jar_id: jar.id) |> IO.inspect() do
+          case repo.get_by(LeydenJar.Jars.Session, wh: wh, jar_id: jar.id) do
             %LeydenJar.Jars.Session{} = session ->
               session
               |> LeydenJar.Jars.Session.changeset(%{state: state})
