@@ -52,7 +52,7 @@ defmodule LeydenJarWeb.JarLive.Show do
   def handle_event(
         "load-chart",
         _,
-        %{assigns: %{jar: %LeydenJar.Jars.Jar{id: id}}} = socket
+        %{assigns: %{jar: %LeydenJar.Jars.Session{id: id}}} = socket
       ) do
     # sql = """
     # select * from jar_posts jp where (jp.body ->> 'wh')::int in
@@ -88,11 +88,18 @@ defmodule LeydenJarWeb.JarLive.Show do
 
     posts_q = from p in LeydenJar.Jars.Post, order_by: [asc: :inserted_at]
 
+    # %{posts: posts} =
+    #   from(s in LeydenJar.Jars.Session,
+    #     where: s.jar_id == ^id,
+    #     order_by: [desc: :wh],
+    #     limit: 1,
+    #     preload: [posts: ^posts_q]
+    #   )
+    #   |> LeydenJar.Repo.one()
+
     %{posts: posts} =
       from(s in LeydenJar.Jars.Session,
-        where: s.jar_id == ^id,
-        order_by: [desc: :wh],
-        limit: 1,
+        where: s.id == ^id,
         preload: [posts: ^posts_q]
       )
       |> LeydenJar.Repo.one()
