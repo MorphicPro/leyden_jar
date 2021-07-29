@@ -52,7 +52,7 @@ defmodule LeydenJarWeb.JarLive.Show do
   def handle_event(
         "load-chart",
         _,
-        %{assigns: %{jar: %LeydenJar.Jars.Session{id: id}}} = socket
+        %{assigns: %{session: %LeydenJar.Jars.Session{id: id}} = assigns} = socket
       ) do
     # sql = """
     # select * from jar_posts jp where (jp.body ->> 'wh')::int in
@@ -86,20 +86,14 @@ defmodule LeydenJarWeb.JarLive.Show do
     #   from(p in LeydenJar.Jars.Post, where: p.jar_id == ^id, order_by: :inserted_at, limit: 1000)
     #   |> LeydenJar.Repo.all()
 
+    IO.inspect(assigns |> Map.keys())
     posts_q = from p in LeydenJar.Jars.Post, order_by: [asc: :inserted_at]
-
-    # %{posts: posts} =
-    #   from(s in LeydenJar.Jars.Session,
-    #     where: s.jar_id == ^id,
-    #     order_by: [desc: :wh],
-    #     limit: 1,
-    #     preload: [posts: ^posts_q]
-    #   )
-    #   |> LeydenJar.Repo.one()
 
     %{posts: posts} =
       from(s in LeydenJar.Jars.Session,
         where: s.id == ^id,
+        order_by: [desc: :wh],
+        limit: 1,
         preload: [posts: ^posts_q]
       )
       |> LeydenJar.Repo.one()
@@ -133,6 +127,10 @@ defmodule LeydenJarWeb.JarLive.Show do
         }
       })
     }
+  end
+
+  def handle_info({:change_session, id}, socket) do
+    {:noreply, push_patch(socket, to: "jars/1?session=305")}
   end
 
   defp page_title(:show), do: "Show Jar"
