@@ -1,3 +1,5 @@
+NOTE: Taken offline
+
 # [Leyden Jar](https://leydenjar.app)
 
 Site: https://leydenjar.app
